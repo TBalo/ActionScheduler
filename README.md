@@ -1,6 +1,5 @@
 ## Background
-The Angular project is in a folder called TodoListAng 
-The Web API project is in a folder called TODO_LIST_dotnet_webapi 
+The Angular project is in a folder called TodoListAng while the Web API project is in a folder called TODO_LIST_dotnet_webapi 
 
 ## TodoListAng
 
@@ -33,6 +32,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## TODO_LIST_dotnet_webapi
 The Web API project is in a folder called TODO_LIST_dotnet_webapi within the TODOLIST repository
 
-## Execute `dotnet run` for a dev server. You could start the project without debugging from visual studio and Navigate to http://localhost:5093/swagger/index.html 
+Execute `dotnet run` for a dev server. You could start the project without debugging from visual studio and Navigate to http://localhost:5093/swagger/index.html 
       "launchUrl": "swagger",
       "applicationUrl": "http://localhost:5093"
