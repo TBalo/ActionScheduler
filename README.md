@@ -30,7 +30,7 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
-#TODO_LIST_dotnet_webapi
+## TODO_LIST_dotnet_webapi
 The Web API project is in a folder called TODO_LIST_dotnet_webapi within the TODOLIST repository
 
 ## Execute `dotnet run` for a dev server. You could start the project without debugging from visual studio and Navigate to http://localhost:5093/swagger/index.html 
