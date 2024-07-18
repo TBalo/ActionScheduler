@@ -1,0 +1,48 @@
+<div class="container my-5">
+    <div class="card shadow-sm rounded p-4"> 
+        <form novalidate autocomplete="off" #form="ngForm" (submit)="onSubmit(form)">
+            <input type="hidden" name="listId" [value]="service.formData.listId">
+
+            <div class="row mb-3">
+                <div class="form-group col-md-12">
+                    <label for="taskDescription" class="form-label fw-bold">TASK DESCRIPTION</label>
+                    <input type="text" class="form-control form-control-lg" placeholder="Enter Task Description" 
+                           id="taskDescription" name="taskDescription" #taskDescription="ngModel" 
+                           [(ngModel)]="service.formData.taskDescription" required 
+                           [class.is-invalid]="taskDescription.invalid && taskDescription.touched" 
+                           maxlength="150" minlength="5">
+                    <div *ngIf="taskDescription.invalid && taskDescription.touched" class="invalid-feedback">
+                        Task description is required and should be between 5 and 150 characters.
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="form-group col-md-12">
+                    <label for="dueDate" class="form-label fw-bold">DUE DATE</label>
+                    <input type="datetime-local" class="form-control form-control-lg" 
+                           id="dueDate" name="dueDate" #dueDate="ngModel" 
+                           [(ngModel)]="service.formData.dueDate" required 
+                           [class.is-invalid]="dueDate.invalid && dueDate.touched">
+                    <div *ngIf="dueDate.invalid && dueDate.touched" class="invalid-feedback">
+                        Schedule date is required.
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="form-group col-md-12 d-flex align-items-center ">
+                    <input type="checkbox" class="form-check-input me-2" style="height: 30px; width:30px;" id="status" name="status" 
+                           [(ngModel)]="service.formData.status">
+                    <p class="form-check-label mb-0" for="status">COMPLETED</p>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="form-group col-md-12 text-center">
+                    <button class="btn btn-primary btn-lg btn-block" style="width: 100%; height: 60px;" type="submit" [disabled]="form.invalid">SUBMIT</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+<div class="container-fluid">
+    <div class="py-3">
+        <div class="d-flex align-items-center">
+            <a routerLink="/home" class="btn btn-link">
+                <i class="bi bi-arrow-left h2 me-2"></i> <span class="h2">Home</span>
+            </a>
+        </div>
+        <ul class="list-unstyled">
+            <li><i class="bi bi-check h4"></i> <span class="h4">Create your task</span></li>
+            <li><i class="bi bi-check h4"></i> <span class="h4">Keep a track of your tasks</span></li>
+            <li><i class="bi bi-check h4"></i> <span class="h4">Manage your tasks all in one view</span></li>
+        </ul>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <app-todo-list-form></app-todo-list-form>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-8">
+            <div class="table-responsive">
+                <table class="table table-bordered rounded shadow-sm">
+                    <thead class="bg-success text-white rounded-top">
+                        <tr>
+                            <th scope="col" class="text-center">Task Description</th>
+                            <th scope="col" class="text-center">Due Date</th>
+                            <th scope="col" class="text-center">Status</th>
+                            <th scope="col" class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngIf="service.list && service.list.length > 0; else noItemsToDo">
+                            <tr *ngFor="let TL of service.list" (click)="populateForm(TL)">
+                                <td class="text-center">{{ TL.taskDescription }}</td>
+                                <td class="text-center">{{ formatDateWithSuffix(TL.dueDate) }}</td>
+                                <td class="text-center">{{ TL.status ? 'Done' : 'Not Done' }}</td>
+                                <td class="flex text-center justify-content-between">
+                                    <button class="btn btn-sm btn-primary me-1 mt-1" (click)="populateForm(TL)">Edit</button>
+                                    <button class="btn btn-sm btn-danger mt-1" (click)="onDelete(TL.listId)">Delete</button>
+                                </td>
+                            </tr>
+                        </ng-container>
+                        <ng-template #noItemsToDo>
+                            <tr>
+                                <td colspan="4" class="text-center">No item in to-do</td>
+                            </tr>
+                        </ng-template>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row justify-content-between mt-3 mb-5 gap-4">
+                <div class="col-md-auto">
+                    <button class="btn btn-primary btn-lg btn-block" type="button" (click)="orderAsc()">A-Z SORT</button>
+                </div>
+                <div class="col-md-auto">
+                    <button class="btn btn-primary btn-lg btn-block" type="button" (click)="orderDesc()">Z-A SORT</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

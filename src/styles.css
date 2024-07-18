@@ -1,0 +1,51 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");
+
+.form-group label {
+    color: grey;
+    padding-top: 20px;
+}
+
+.form-group input{
+    font-weight: 500;
+    padding-bottom: 10px;
+}
+
+.form-group input::placeholder{
+    color: #c0bdbd;
+    font-weight: 300;
+    padding-bottom: 10px;
+
+}
+
+thead th{
+    font-weight: bold;
+}
+
+table tbody tr:hover{
+    background-color: #fffbf2;
+    cursor: pointer;
+}
+
+input .invalid{
+    border-color: red;
+}
+
+.jumbotron{
+    background-color: brown;
+}
+
+.form-group{
+    padding-bottom: 20px;
+}
+
+h1{
+    padding-bottom: 30px;
+}
+
+span{
+    padding-top: 20px;
+}
+
+.invalid{
+    border-color: red;
+}
