@@ -6,9 +6,11 @@ namespace TODO_LIST.Models
     {
         public TodoListContext(DbContextOptions<TodoListContext> options) :base(options)
         {
-               
+
         }
 
         public DbSet<TodoList> TodoLists { get; set; }
+        public DbSet<User> Users { get; set; }
+
     }
 }

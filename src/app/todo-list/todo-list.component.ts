@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { TodoList } from '../shared/todo-list.model';
-import { TodoListService } from '../shared/todo-list.service';
 import { DatePipe } from '@angular/common';
+import { TodoListService } from '../shared/todo-list.service';
+import { TodoList } from '../shared/todo-list.model';
 
 @Component({
   selector: 'app-todo-list',
@@ -12,6 +12,9 @@ import { DatePipe } from '@angular/common';
   providers: [DatePipe]
 })
 export class TodoListComponent implements OnInit {
+
+  userName: string = localStorage.getItem('userName') || 'Guest';
+
 
   constructor(public service: TodoListService,
     private toastr: ToastrService,

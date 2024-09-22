@@ -14,6 +14,10 @@ import { FooterComponent } from './footer/footer.component';
 import { IntroSectionComponent } from './intro-section/intro-section.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+import { SignupComponent } from './auth/signup/signup.component';
+import { LoginComponent } from './auth/login/login.component';
+import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 
 
 @NgModule({
@@ -26,7 +30,11 @@ import { HomeComponent } from './home/home.component';
     TestimonialsComponent,
     FooterComponent,
     IntroSectionComponent,
-    HomeComponent
+    HomeComponent,
+    LoginComponent,
+    SignupComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,

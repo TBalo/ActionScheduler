@@ -5,4 +5,5 @@ export class TodoList {
     taskDescription:string='';
     status:boolean=false;
     dueDate:Date;
+    userId:number;
 }

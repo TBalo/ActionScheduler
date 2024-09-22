@@ -10,8 +10,16 @@ namespace TODO_LIST.Models
 
         [Column(TypeName = "nvarchar(500)")]
         public string TaskDescription { get; set; }
+        
         public bool Status { get; set; }
+        
         public DateTime DueDate { get; set; }
 
+        // Foreign key for User
+        public int UserId { get; set; }
+
+        // Mark as virtual to avoid it being included in the payload
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; }
     }
 }
