@@ -5,6 +5,10 @@
                 <i class="bi bi-arrow-left h2 me-2"></i> <span class="h2">Home</span>
             </a>
         </div>
+        <div class="py-1 h4">
+                <p>Hi <span class="font-bold">{{userName}}</span>,</p> 
+                <p>You can!</p>
+        </div>
         <ul class="list-unstyled">
             <li><i class="bi bi-check h4"></i> <span class="h4">Create your task</span></li>
             <li><i class="bi bi-check h4"></i> <span class="h4">Keep a track of your tasks</span></li>
@@ -33,7 +37,7 @@
                     <tbody>
                         <ng-container *ngIf="service.list && service.list.length > 0; else noItemsToDo">
                             <tr *ngFor="let TL of service.list" (click)="populateForm(TL)">
-                                <td class="text-center">{{ TL.taskDescription }}</td>
+                                <td class="text-center text-sm">{{ TL.taskDescription }}</td>
                                 <td class="text-center">{{ formatDateWithSuffix(TL.dueDate) }}</td>
                                 <td class="text-center">{{ TL.status ? 'Done' : 'Not Done' }}</td>
                                 <td class="flex text-center justify-content-between">
@@ -51,14 +55,14 @@
                 </table>
             </div>
 
-            <div class="row justify-content-between mt-3 mb-5 gap-4">
+            <!-- <div class="row justify-content-between mt-3 mb-5 gap-4">
                 <div class="col-md-auto">
                     <button class="btn btn-primary btn-lg btn-block" type="button" (click)="orderAsc()">A-Z SORT</button>
                 </div>
                 <div class="col-md-auto">
                     <button class="btn btn-primary btn-lg btn-block" type="button" (click)="orderDesc()">Z-A SORT</button>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
