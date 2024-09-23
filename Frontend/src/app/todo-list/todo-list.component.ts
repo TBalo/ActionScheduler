@@ -35,7 +35,7 @@ export class TodoListComponent implements OnInit {
       this.service.deleteTodoList(id).subscribe(
         res => {
           this.service.refreshList();
-          this.toastr.error("Deleted successfully", "TodoList App");
+          this.toastr.error("Deleted successfully", "Task Scheduler");
         },
         err => {
           console.log(err);
@@ -44,12 +44,12 @@ export class TodoListComponent implements OnInit {
 
   orderDesc() {
     this.service.getListDesc()
-    this.toastr.success('Listed in descending order', 'TodoList App');
+    this.toastr.success('Listed in descending order', 'Task Scheduler');
   }
 
   orderAsc() {
     this.service.getListAsc();
-    this.toastr.success('Listed in ascending order', 'TodoList App');
+    this.toastr.success('Listed in ascending order', 'Task Scheduler');
   }
 
   formatDateWithSuffix(date: Date | string): string {

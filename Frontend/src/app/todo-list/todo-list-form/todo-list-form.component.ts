@@ -29,7 +29,7 @@ ngOnInit(): void {
       res =>{
               this.service.refreshList();
               this.resetForm(form);
-              this.toastr.success('Submitted successfully', 'TodoList App');
+              this.toastr.success('Submitted successfully', 'Task Scheduler');
             },
       err =>{
         console.log(err);
@@ -41,7 +41,7 @@ ngOnInit(): void {
       res =>{
               this.service.refreshList();
               this.resetForm(form);
-              this.toastr.info('Updated Successfully', 'TodoList App');
+              this.toastr.info('Updated Successfully', 'Task Scheduler');
             },
       err =>{
         console.log(err);
