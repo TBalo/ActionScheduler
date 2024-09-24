@@ -111,7 +111,7 @@ namespace TODO_LIST.Controllers
             }
 
             // Generate a reset token and expiry (optional, not needed now)
-            var resetLink = $"https://localhost:4200/reset-password?email={request.Email}"; // Generate actual reset link
+            var resetLink = $"https://actionscheduler.netlify.app/reset-password?email={request.Email}"; // Generate actual reset link
 
             // Send email to user (assuming your EmailService is implemented)
             var emailService = new EmailService();

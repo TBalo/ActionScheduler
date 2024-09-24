@@ -4,9 +4,7 @@ using TODO_LIST.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
-
 var builder = WebApplication.CreateBuilder(args);
-
 
 builder.Services.AddCors();
 builder.Services.AddControllers();
@@ -19,7 +17,8 @@ builder.Services.AddAuthentication(x =>
     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(x =>
 {
-    x.RequireHttpsMetadata = false; x.SaveToken = true;
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = true;
     x.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
@@ -29,27 +28,37 @@ builder.Services.AddAuthentication(x =>
     };
 });
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddDbContext<TodoListContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("DevConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DevConnection")));
 
 var app = builder.Build();
 
-
-app.UseCors(options =>
-options.WithOrigins("http://localhost:4200")
-.AllowAnyMethod()
-.AllowAnyHeader());
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+using (var scope = app.Services.CreateScope())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<TodoListContext>();
+        context.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"An error occurred while migrating the database: {ex.Message}");
+    }
 }
 
+app.UseCors(options =>
+    options.WithOrigins("https://actionscheduler.netlify.app")
+           .AllowAnyMethod()
+           .AllowAnyHeader());
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
