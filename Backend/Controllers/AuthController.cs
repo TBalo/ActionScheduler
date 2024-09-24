@@ -87,7 +87,6 @@ namespace TODO_LIST.Controllers
                         existingUser.UserName,
                         existingUser.Email,
                         existingUser.UserId
-
                     },
                     token
                 },
@@ -146,6 +145,7 @@ namespace TODO_LIST.Controllers
 
             return Ok("Password has been reset.");
         }
+
         // GET: api/Auth/users
         [HttpGet("users")]
         public async Task<IActionResult> GetUsers()
@@ -161,6 +161,7 @@ namespace TODO_LIST.Controllers
 
             return Ok(users);
         }
+
         // GET: api/Auth/user/{id}
         [HttpGet("user/{id}")]
         public async Task<IActionResult> GetUserById(int id)
@@ -182,10 +183,17 @@ namespace TODO_LIST.Controllers
 
             return Ok(user);
         }
+
         private string GenerateToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
+            var key = _configuration["Jwt:Key"];
+
+            if (string.IsNullOrEmpty(key))
+            {
+                throw new InvalidOperationException("JWT key is not configured.");
+            }
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
@@ -195,7 +203,7 @@ namespace TODO_LIST.Controllers
                     new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddHours(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
@@ -204,26 +212,26 @@ namespace TODO_LIST.Controllers
 
     public class SignupRequest
     {
-        public string UserName { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public string UserName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
     }
 
     public class LoginRequest
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
     }
 
     public class ForgotPasswordRequest
     {
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
     }
 
     public class ResetPasswordRequest
     {
-        public string Email { get; set; }
-        public string NewPassword { get; set; }
-        public string ConfirmPassword { get; set; }
+        public string Email { get; set; } = string.Empty;
+        public string NewPassword { get; set; } = string.Empty;
+        public string ConfirmPassword { get; set; } = string.Empty;
     }
 }

@@ -3,13 +3,21 @@ using Microsoft.EntityFrameworkCore;
 using TODO_LIST.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors();
 builder.Services.AddControllers();
 
-var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
+// var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
+
+var key = builder.Configuration["Jwt:Key"];
+if (string.IsNullOrEmpty(key))
+{
+    throw new InvalidOperationException("JWT key is not configured.");
+}
+var keyBytes = Encoding.ASCII.GetBytes(key);
 
 builder.Services.AddAuthentication(x =>
 {
@@ -22,7 +30,7 @@ builder.Services.AddAuthentication(x =>
     x.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
+        IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
         ValidateIssuer = false,
         ValidateAudience = false
     };

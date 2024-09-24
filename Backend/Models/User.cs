@@ -8,17 +8,34 @@ namespace TODO_LIST.Models
         [Key]
         public int UserId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "User Name is required.")]
         [StringLength(100)]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Email is required.")]
         [StringLength(100)]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Password is required.")]
         [StringLength(100)]
         public string Password { get; set; }
 
+
+        public User()
+        {
+            UserName = string.Empty;
+            Email = string.Empty;
+            Password = string.Empty;
+        }
+
+        // Constructor for initialization
+        public User(string userName, string email, string password)
+        {
+            UserName = userName;
+            Email = email;
+            Password = password;
+        }
     }
+
 }

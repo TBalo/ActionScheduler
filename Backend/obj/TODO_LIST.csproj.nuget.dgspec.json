@@ -1,32 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "E:\\tbalo\\Source\\Repos\\TodoList_with_angular_dotnet_sqlserver\\TODO_LIST_dotnet_webapi\\TODO_LIST.csproj": {}
+    "/Users/TBALO/Projects/TODOLIST/Backend/TODO_LIST.csproj": {}
   },
   "projects": {
-    "E:\\tbalo\\Source\\Repos\\TodoList_with_angular_dotnet_sqlserver\\TODO_LIST_dotnet_webapi\\TODO_LIST.csproj": {
+    "/Users/TBALO/Projects/TODOLIST/Backend/TODO_LIST.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\tbalo\\Source\\Repos\\TodoList_with_angular_dotnet_sqlserver\\TODO_LIST_dotnet_webapi\\TODO_LIST.csproj",
+        "projectUniqueName": "/Users/TBALO/Projects/TODOLIST/Backend/TODO_LIST.csproj",
         "projectName": "TODO_LIST",
-        "projectPath": "E:\\tbalo\\Source\\Repos\\TodoList_with_angular_dotnet_sqlserver\\TODO_LIST_dotnet_webapi\\TODO_LIST.csproj",
-        "packagesPath": "C:\\Users\\tbalo\\.nuget\\packages\\",
-        "outputPath": "E:\\tbalo\\Source\\Repos\\TodoList_with_angular_dotnet_sqlserver\\TODO_LIST_dotnet_webapi\\obj\\",
+        "projectPath": "/Users/TBALO/Projects/TODOLIST/Backend/TODO_LIST.csproj",
+        "packagesPath": "/Users/TBALO/.nuget/packages/",
+        "outputPath": "/Users/TBALO/Projects/TODOLIST/Backend/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\tbalo\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/TBALO/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
-          "net7.0"
+          "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net7.0": {
-            "targetAlias": "net7.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -34,41 +32,46 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "dependencies": {
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
-              "version": "[7.0.8, )"
+              "version": "[8.0.8, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[7.0.2, )"
-            },
-            "Microsoft.EntityFrameworkCore.SqlServer": {
-              "target": "Package",
-              "version": "[7.0.2, )"
+              "version": "[8.0.8, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[7.0.2, )"
+              "version": "[8.0.8, )"
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
-              "version": "[7.0.3, )"
+              "version": "[8.0.5, )"
             },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.3, )"
             },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[8.0.4, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[6.5.0, )"
+              "version": "[6.8.0, )"
             }
           },
           "imports": [
@@ -90,7 +93,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.304/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

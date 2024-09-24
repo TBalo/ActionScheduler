@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TODO_LIST.Models
@@ -8,18 +9,20 @@ namespace TODO_LIST.Models
         [Key]
         public int ListId { get; set; }
 
-        [Column(TypeName = "nvarchar(500)")]
-        public string TaskDescription { get; set; }
-        
-        public bool Status { get; set; }
-        
-        public DateTime DueDate { get; set; }
+        [Required(ErrorMessage = "Task description is required.")]
+        [StringLength(500, ErrorMessage = "Task description cannot exceed 500 characters.")]
+        public string TaskDescription { get; set; } = string.Empty;
 
-        // Foreign key for User
+        [Required]
+        public bool Status { get; set; } = false;
+
+        [Required(ErrorMessage = "Due date is required.")]
+        public DateTime DueDate { get; set; } = DateTime.Now;
+
+        [Required]
         public int UserId { get; set; }
 
-        // Mark as virtual to avoid it being included in the payload
         [ForeignKey("UserId")]
-        public virtual User User { get; set; }
+        public virtual User? User { get; set; }
     }
 }
