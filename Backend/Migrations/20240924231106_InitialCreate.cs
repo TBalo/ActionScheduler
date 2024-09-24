@@ -33,7 +33,7 @@ namespace TODO_LIST.Migrations
                 {
                     ListId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    TaskDescription = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
+                    Task = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     Status = table.Column<bool>(type: "boolean", nullable: false),
                     DueDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false)

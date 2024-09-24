@@ -36,7 +36,7 @@ namespace TODO_LIST.Migrations
                     b.Property<bool>("Status")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("TaskDescription")
+                    b.Property<string>("Task")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");

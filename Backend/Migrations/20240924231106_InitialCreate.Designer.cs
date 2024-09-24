@@ -12,7 +12,7 @@ using TODO_LIST.Models;
 namespace TODO_LIST.Migrations
 {
     [DbContext(typeof(TodoListContext))]
-    [Migration("20240924164211_InitialCreate")]
+    [Migration("20240924231106_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -39,7 +39,7 @@ namespace TODO_LIST.Migrations
                     b.Property<bool>("Status")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("TaskDescription")
+                    b.Property<string>("Task")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
