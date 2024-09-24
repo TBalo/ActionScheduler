@@ -10,6 +10,7 @@ export class SignupComponent {
   userName: string = '';
   email: string = '';
   password: string = '';
+  isPasswordVisible: boolean = false;
 
   constructor(private router: Router, private authService: AuthService) {}
 
@@ -34,5 +35,9 @@ export class SignupComponent {
     } else {
       alert('Please fill out all fields.');
     }
+  }
+
+  togglePasswordVisibility() {
+    this.isPasswordVisible = !this.isPasswordVisible;
   }
 }

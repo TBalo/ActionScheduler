@@ -2,7 +2,7 @@ import { getLocaleDateTimeFormat } from "@angular/common";
 
 export class TodoList {
     listId:number=0;
-    taskDescription:string='';
+    task:string='';
     status:boolean=false;
     dueDate:Date;
     userId:number;

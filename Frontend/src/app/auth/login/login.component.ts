@@ -10,6 +10,7 @@ import { TodoListService } from 'src/app/shared/todo-list.service'; // Ensure th
 export class LoginComponent {
   email: string = '';
   password: string = '';
+  isPasswordVisible: boolean = false;
 
   constructor(private authService: AuthService, private router: Router, private todoListService: TodoListService) { }
 
@@ -38,5 +39,9 @@ export class LoginComponent {
     } else {
       alert('Please enter both email and password.');
     }
+  }
+
+  togglePasswordVisibility() {
+    this.isPasswordVisible = !this.isPasswordVisible;
   }
 }

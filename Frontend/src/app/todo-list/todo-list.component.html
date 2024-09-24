@@ -28,18 +28,18 @@
                 <table class="table table-bordered rounded shadow-sm">
                     <thead class="bg-success text-white rounded-top">
                         <tr>
-                            <th scope="col" class="text-center">Task Description</th>
+                            <th scope="col" class="text-center">Title</th>
                             <th scope="col" class="text-center">Due Date</th>
                             <th scope="col" class="text-center">Status</th>
-                            <th scope="col" class="text-center">Actions</th>
+                            <th scope="col" class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <ng-container *ngIf="service.list && service.list.length > 0; else noItemsToDo">
                             <tr *ngFor="let TL of service.list" (click)="populateForm(TL)">
-                                <td class="text-center text-sm">{{ TL.taskDescription }}</td>
+                                <td class="text-center text-sm">{{ TL.task }}</td>
                                 <td class="text-center">{{ formatDateWithSuffix(TL.dueDate) }}</td>
-                                <td class="text-center">{{ TL.status ? 'Done' : 'Not Done' }}</td>
+                                <td class="text-center">{{ TL.completed ? 'Done' : 'Not Done' }}</td>
                                 <td class="flex text-center justify-content-between">
                                     <button class="btn btn-sm btn-primary me-1 mt-1" (click)="populateForm(TL)">Edit</button>
                                     <button class="btn btn-sm btn-danger mt-1" (click)="onDelete(TL.listId)">Delete</button>
