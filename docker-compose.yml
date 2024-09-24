@@ -9,20 +9,21 @@ services:
       - "8080:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - ConnectionStrings__DevConnection=Host=dpg-crp9fmo8fa8c73ducsb0-a;Database=todolistdb_dg7h;User=admin;Password=txXNRl6KFWQAOM5YROw1V56QWjhZg3L9;
+      - ConnectionStrings__DevConnection=Host=dpg-crp9fmo8fa8c73ducsb0-a;Database=todolistdb_dg7h;Username=admin;Password=txXNRl6KFWQAOM5YROw1V56QWjhZg3L9;
       - Jwt__Key=2nmqkYbtQQrGPj3IsCt1IkMiiWp4HYcSrzTGaUCeKT0=
     depends_on:
       - db
 
   db:
-    image: mcr.microsoft.com/mssql/server:2019-latest
+    image: postgres:latest
     environment:
-      SA_PASSWORD: "Actionscheduler@123"
-      ACCEPT_EULA: "Y"
+      POSTGRES_DB: todolistdb_dg7h
+      POSTGRES_USER: aadmin
+      POSTGRES_PASSWORD: txXNRl6KFWQAOM5YROw1V56QWjhZg3L9
     ports:
-      - "1433:1433"
+      - "5432:5432"
     volumes:
-      - mssql_data:/var/opt/mssql
+      - postgres_data:/var/lib/postgresql/data
 
 volumes:
-  mssql_data:
+  postgres_data:
