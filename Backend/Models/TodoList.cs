@@ -11,7 +11,7 @@ namespace TODO_LIST.Models
 
         [Required(ErrorMessage = "Task description is required.")]
         [StringLength(500, ErrorMessage = "Task description cannot exceed 500 characters.")]
-        public string TaskDescription { get; set; } = string.Empty;
+        public string Task { get; set; } = string.Empty;
 
         [Required]
         public bool Status { get; set; } = false;

@@ -42,15 +42,15 @@ export class TodoListComponent implements OnInit {
         });
   }
 
-  orderDesc() {
-    this.service.getListDesc()
-    this.toastr.success('Listed in descending order', 'Task Scheduler');
-  }
+  // orderDesc() {
+  //   this.service.getListDesc()
+  //   this.toastr.success('Listed in descending order', 'Task Scheduler');
+  // }
 
-  orderAsc() {
-    this.service.getListAsc();
-    this.toastr.success('Listed in ascending order', 'Task Scheduler');
-  }
+  // orderAsc() {
+  //   this.service.getListAsc();
+  //   this.toastr.success('Listed in ascending order', 'Task Scheduler');
+  // }
 
   formatDateWithSuffix(date: Date | string): string {
     if (!date) return ''; 

@@ -36,7 +36,7 @@ namespace TODO_LIST.Controllers
             var responseDtos = userTodoLists.Select(todoList => new TodoListResponseDto
             {
                 ListId = todoList.ListId,
-                TaskDescription = todoList.TaskDescription,
+                Task = todoList.Task,
                 Status = todoList.Status,
                 DueDate = todoList.DueDate,
                 UserId = todoList.UserId,
@@ -68,7 +68,7 @@ namespace TODO_LIST.Controllers
             var responseDtos = userTodoLists.Select(todoList => new TodoListResponseDto
             {
                 ListId = todoList.ListId,
-                TaskDescription = todoList.TaskDescription,
+                Task = todoList.Task,
                 Status = todoList.Status,
                 DueDate = todoList.DueDate,
                 UserId = todoList.UserId,
@@ -100,7 +100,7 @@ namespace TODO_LIST.Controllers
             var responseDtos = userTodoLists.Select(todoList => new TodoListResponseDto
             {
                 ListId = todoList.ListId,
-                TaskDescription = todoList.TaskDescription,
+                Task = todoList.Task,
                 Status = todoList.Status,
                 DueDate = todoList.DueDate,
                 UserId = todoList.UserId,
@@ -135,7 +135,7 @@ namespace TODO_LIST.Controllers
             var responseDto = new TodoListResponseDto
             {
                 ListId = todoList.ListId,
-                TaskDescription = todoList.TaskDescription,
+                Task = todoList.Task,
                 Status = todoList.Status,
                 DueDate = todoList.DueDate,
                 UserId = todoList.UserId,
@@ -160,7 +160,7 @@ namespace TODO_LIST.Controllers
                 return NotFound();
             }
 
-            todoList.TaskDescription = todoListDto.TaskDescription ?? todoList.TaskDescription;
+            todoList.Task = todoListDto.Task ?? todoList.Task;
             todoList.Status = todoListDto.Status;
             todoList.DueDate = todoListDto.DueDate;
             todoList.UserId = todoListDto.UserId;
@@ -189,6 +189,11 @@ namespace TODO_LIST.Controllers
         [HttpPost]
         public async Task<ActionResult<TodoListResponseDto>> PostTodoList(TodoListDto todoListDto)
         {
+            if (todoListDto == null || string.IsNullOrEmpty(todoListDto.Task) || todoListDto.DueDate == null || todoListDto.UserId == 0)
+            {
+                return BadRequest("Task, DueDate, and UserId are required.");
+            }
+
             if (_context.TodoLists == null)
             {
                 return Problem("Entity set 'TodoListContext.TodoLists' is null.");
@@ -202,19 +207,26 @@ namespace TODO_LIST.Controllers
 
             var todoList = new TodoList
             {
-                TaskDescription = todoListDto.TaskDescription,
+                Task = todoListDto.Task,
                 Status = todoListDto.Status,
                 DueDate = todoListDto.DueDate,
                 UserId = todoListDto.UserId
             };
 
-            _context.TodoLists.Add(todoList);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.TodoLists.Add(todoList);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
 
             var responseDto = new TodoListResponseDto
             {
                 ListId = todoList.ListId,
-                TaskDescription = todoList.TaskDescription,
+                Task = todoList.Task,
                 Status = todoList.Status,
                 DueDate = todoList.DueDate,
                 UserId = todoList.UserId,
@@ -224,6 +236,7 @@ namespace TODO_LIST.Controllers
 
             return CreatedAtAction("GetTodoList", new { id = todoList.ListId }, responseDto);
         }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTodoList(int id)
@@ -251,24 +264,24 @@ namespace TODO_LIST.Controllers
         }
     }
 
-public class TodoListDto
-{
-    public int ListId { get; set; }
-    public string TaskDescription { get; set; } = string.Empty; 
-    public bool Status { get; set; }
-    public DateTime DueDate { get; set; }
-    public int UserId { get; set; }
-}
+    public class TodoListDto
+    {
+        public int ListId { get; set; }
+        public string Task { get; set; } = string.Empty;
+        public bool Status { get; set; }
+        public DateTime DueDate { get; set; }
+        public int UserId { get; set; }
+    }
 
-public class TodoListResponseDto
-{
-    public int ListId { get; set; }
-    public string TaskDescription { get; set; } = string.Empty; 
-    public bool Status { get; set; }
-    public DateTime DueDate { get; set; }
-    public int UserId { get; set; }
-    public string UserName { get; set; } = "Unknown"; 
-    public string Email { get; set; } = "No Email"; 
-}
+    public class TodoListResponseDto
+    {
+        public int ListId { get; set; }
+        public string Task { get; set; } = string.Empty;
+        public bool Status { get; set; }
+        public DateTime DueDate { get; set; }
+        public int UserId { get; set; }
+        public string UserName { get; set; } = "Unknown";
+        public string Email { get; set; } = "No Email";
+    }
 
 }

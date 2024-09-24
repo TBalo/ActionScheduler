@@ -9,7 +9,7 @@ import { Observable, of } from 'rxjs';
 export class TodoListService {
   private userId: number = Number(localStorage.getItem('userId')); 
 
-  readonly baseURL = `https://todolist-qlng.onrender.com/api/TodoList`;
+  private baseURL = `https://todolist-qlng.onrender.com/api/TodoList`;
   readonly baseURLgetAsc = `https://todolist-qlng.onrender.com/api/TodoList/user/asc/`;
   readonly baseURLgetDesc = `https://todolist-qlng.onrender.com/api/TodoList/user/desc/`;
 
@@ -35,7 +35,7 @@ export class TodoListService {
   postTodoList(): Observable<TodoList> {
     this.initializeUserId(); 
     this.formData.userId = this.userId;
-    return this.http.post<TodoList>(this.baseURL, this.formData, this.getHttpOptions());
+    return this.http.post<TodoList>(`${this.baseURL}`, this.formData, this.getHttpOptions());
   }
 
   putTodoList(): Observable<void> {
@@ -57,10 +57,10 @@ export class TodoListService {
     return this.userId ? this.http.get<TodoList[]>(`${this.baseURLgetAsc}${this.userId}`) : of([]);
   }
 
-  getListDesc(): Observable<TodoList[]> {
-    this.initializeUserId(); 
-    return this.userId ? this.http.get<TodoList[]>(`${this.baseURLgetDesc}${this.userId}`) : of([]);
-  }
+  // getListDesc(): Observable<TodoList[]> {
+  //   this.initializeUserId(); 
+  //   return this.userId ? this.http.get<TodoList[]>(`${this.baseURLgetDesc}${this.userId}`) : of([]);
+  // }
 
   updateUserId(newUserId: number): void {
     this.userId = newUserId;
