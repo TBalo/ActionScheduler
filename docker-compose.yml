@@ -18,7 +18,7 @@ services:
     image: postgres:latest
     environment:
       POSTGRES_DB: todolistdb_dg7h
-      POSTGRES_USER: aadmin
+      POSTGRES_USER: admin
       POSTGRES_PASSWORD: txXNRl6KFWQAOM5YROw1V56QWjhZg3L9
     ports:
       - "5432:5432"
