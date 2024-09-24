@@ -9,9 +9,9 @@ import { Observable, of } from 'rxjs';
 export class TodoListService {
   private userId: number = Number(localStorage.getItem('userId')); 
 
-  readonly baseURL = `http://localhost:5093/api/TodoList`;
-  readonly baseURLgetAsc = `http://localhost:5093/api/TodoList/user/asc/`;
-  readonly baseURLgetDesc = `http://localhost:5093/api/TodoList/user/desc/`;
+  readonly baseURL = `http://localhost:8080/api/TodoList`;
+  readonly baseURLgetAsc = `http://localhost:8080/api/TodoList/user/asc/`;
+  readonly baseURLgetDesc = `http://localhost:8080/api/TodoList/user/desc/`;
 
   formData: TodoList = new TodoList();
   list: TodoList[] = [];

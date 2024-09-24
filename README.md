@@ -4,7 +4,7 @@ The Frontend was built with Angular. Backend was done with ASP.NET
 
 ## Frontend
 
-Deployed and hosted using netlify. The app is accessible via - 
+Deployed and hosted using netlify. The app is accessible via - https://actionscheduler.netlify.app
 
 You can run locally with `ng serve` Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
