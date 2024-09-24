@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "TodoList_ang": {
+    "ActionScheduler": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -64,10 +64,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "TodoList_ang:build:production"
+              "browserTarget": "ActionScheduler:build:production"
             },
             "development": {
-              "browserTarget": "TodoList_ang:build:development"
+              "browserTarget": "ActionScheduler:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -75,7 +75,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "TodoList_ang:build"
+            "browserTarget": "ActionScheduler:build"
           }
         },
         "test": {
