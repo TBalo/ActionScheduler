@@ -189,11 +189,6 @@ namespace TODO_LIST.Controllers
         [HttpPost]
         public async Task<ActionResult<TodoListResponseDto>> PostTodoList(TodoListDto todoListDto)
         {
-            if (todoListDto == null || string.IsNullOrEmpty(todoListDto.Task) || todoListDto.DueDate == null || todoListDto.UserId == 0)
-            {
-                return BadRequest("Task, DueDate, and UserId are required.");
-            }
-
             if (_context.TodoLists == null)
             {
                 return Problem("Entity set 'TodoListContext.TodoLists' is null.");
@@ -236,7 +231,6 @@ namespace TODO_LIST.Controllers
 
             return CreatedAtAction("GetTodoList", new { id = todoList.ListId }, responseDto);
         }
-
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTodoList(int id)
