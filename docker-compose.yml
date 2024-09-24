@@ -3,13 +3,13 @@ version: '3.8'
 services:
   webapi:
     build:
-      context: ./Backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Backend/Dockerfile
     ports:
       - "8080:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - ConnectionStrings__DevConnection=Server=db;Database=TodoListDB;User=sa;Password=Actionscheduler@123;TrustServerCertificate=True;MultipleActiveResultSets=True;
+      - ConnectionStrings__DevConnection=Host=db;Database=TodoListDB;User=postgres;Password=Actionscheduler@123;
       - Jwt__Key=2nmqkYbtQQrGPj3IsCt1IkMiiWp4HYcSrzTGaUCeKT0=
     depends_on:
       - db
