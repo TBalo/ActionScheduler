@@ -8,7 +8,7 @@ RUN dotnet restore
 COPY Backend/. ./
 RUN dotnet publish -c Release -o /app/publish
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:latest AS runtime
 WORKDIR /app
 COPY --from=build /app/publish .
 
