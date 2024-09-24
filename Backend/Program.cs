@@ -7,7 +7,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        policy => policy.WithOrigins("https://actionscheduler.netlify.app")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials()); 
+});
 builder.Services.AddControllers();
 
 // var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
@@ -58,11 +65,7 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-app.UseCors(options =>
-    options.WithOrigins("https://actionscheduler.netlify.app")
-           .AllowAnyMethod()
-           .AllowAnyHeader());
-
+app.UseCors("AllowSpecificOrigin");
 app.UseSwagger();
 app.UseSwaggerUI();
 
