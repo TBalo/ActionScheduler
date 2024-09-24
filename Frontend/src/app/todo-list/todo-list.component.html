@@ -39,7 +39,7 @@
                             <tr *ngFor="let TL of service.list" (click)="populateForm(TL)">
                                 <td class="text-center text-sm">{{ TL.task }}</td>
                                 <td class="text-center">{{ formatDateWithSuffix(TL.dueDate) }}</td>
-                                <td class="text-center">{{ TL.completed ? 'Done' : 'Not Done' }}</td>
+                                <td class="text-center">{{ TL.status ? 'Done' : 'Not Done' }}</td>
                                 <td class="flex text-center justify-content-between">
                                     <button class="btn btn-sm btn-primary me-1 mt-1" (click)="populateForm(TL)">Edit</button>
                                     <button class="btn btn-sm btn-danger mt-1" (click)="onDelete(TL.listId)">Delete</button>

@@ -5,13 +5,13 @@
 
             <div class="row mb-3">
                 <div class="form-group col-md-12">
-                    <label for="taskDescription" class="form-label fw-bold">TASK DESCRIPTION</label>
+                    <label for="task" class="form-label fw-bold">TASK DESCRIPTION</label>
                     <input type="text" class="form-control form-control-lg" placeholder="Enter Task Description" 
-                           id="taskDescription" name="taskDescription" #taskDescription="ngModel" 
-                           [(ngModel)]="service.formData.taskDescription" required 
-                           [class.is-invalid]="taskDescription.invalid && taskDescription.touched" 
+                           id="task" name="task" #task="ngModel" 
+                           [(ngModel)]="service.formData.task" required 
+                           [class.is-invalid]="task.invalid && task.touched" 
                            maxlength="150" minlength="5">
-                    <div *ngIf="taskDescription.invalid && taskDescription.touched" class="invalid-feedback">
+                    <div *ngIf="task.invalid && task.touched" class="invalid-feedback">
                         Please input the Task info, it cannot be less than 5 characters.
                     </div>
                 </div>
