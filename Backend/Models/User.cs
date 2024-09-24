@@ -29,7 +29,6 @@ namespace TODO_LIST.Models
             Password = string.Empty;
         }
 
-        // Constructor for initialization
         public User(string userName, string email, string password)
         {
             UserName = userName;

@@ -12,7 +12,7 @@ using TODO_LIST.Models;
 namespace TODO_LIST.Migrations
 {
     [DbContext(typeof(TodoListContext))]
-    [Migration("20240924135035_InitialCreate")]
+    [Migration("20240924164211_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
