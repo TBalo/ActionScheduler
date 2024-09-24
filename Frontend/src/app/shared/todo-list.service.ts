@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TodoList } from './todo-list.model'; 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 @Injectable({
@@ -16,8 +16,15 @@ export class TodoListService {
   formData: TodoList = new TodoList();
   list: TodoList[] = [];
 
-  constructor(private http: HttpClient) {}
-
+  constructor(private http: HttpClient) { }
+  private getHttpOptions() {
+    return {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Accept': '*/*'
+      })
+    };
+  }
   private initializeUserId(): void {
     this.userId = Number(localStorage.getItem('userId')); 
     if (!this.userId) {
@@ -28,17 +35,17 @@ export class TodoListService {
   postTodoList(): Observable<TodoList> {
     this.initializeUserId(); 
     this.formData.userId = this.userId;
-    return this.http.post<TodoList>(this.baseURL, this.formData);
+    return this.http.post<TodoList>(this.baseURL, this.formData, this.getHttpOptions());
   }
 
   putTodoList(): Observable<void> {
     this.initializeUserId(); 
-    return this.http.put<void>(`${this.baseURL}/${this.formData.listId}`, this.formData);
+    return this.http.put<void>(`${this.baseURL}/${this.formData.listId}`, this.formData, this.getHttpOptions());
   }
 
   deleteTodoList(id: number): Observable<void> {
     this.initializeUserId(); 
-    return this.http.delete<void>(`${this.baseURL}/${id}`);
+    return this.http.delete<void>(`${this.baseURL}/${id}`, this.getHttpOptions());
   }
 
   refreshList(): void {

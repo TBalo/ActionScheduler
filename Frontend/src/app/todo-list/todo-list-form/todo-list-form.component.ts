@@ -31,8 +31,9 @@ ngOnInit(): void {
               this.resetForm(form);
               this.toastr.success('Submitted successfully', 'Task Scheduler');
             },
-      err =>{
-        console.log(err);
+            err => {
+              console.log(err);
+              this.toastr.error('Failed to submit', 'Task Scheduler');
             }
       );}
 
