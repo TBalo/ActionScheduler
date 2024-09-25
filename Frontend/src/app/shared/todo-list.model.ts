@@ -13,7 +13,7 @@ export interface TodoListDto {
     listId: number;
     task: string;
     status: boolean;
-    dueDate: string; 
+    dueDate: string | null; 
     userId: number;
   }
 

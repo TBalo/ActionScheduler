@@ -21,17 +21,22 @@ export class TodoListFormComponent implements OnInit {
       this.service.formData.listId = 0;
     }
   
-    const formattedDueDate = this.datePipe.transform(this.service.formData.dueDate, 'yyyy-MM-ddTHH:mm:ss.SSSZ') || '1970-01-01T00:00:00.000Z'; // Use a default date
+
+    const formattedDueDate = this.datePipe.transform(
+      this.service.formData.dueDate, 'yyyy-MM-ddTHH:mm:ss.SSSZ') || this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm:ss.SSSZ');
+
+    if (formattedDueDate) {
+      this.service.formData.dueDate = new Date(formattedDueDate);
+    }
   
     const payload: TodoListDto = {
         listId: this.service.formData.listId,
         task: this.service.formData.task,
         status: this.service.formData.status,
-        dueDate: formattedDueDate,  // Ensure this is a string
+        dueDate: formattedDueDate,  
         userId: this.service.formData.userId
     };
   
-    // Pass the payload to your updateRecord method
     if (payload.listId === 0) {
       this.insertRecord(form);
     } else {
