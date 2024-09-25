@@ -24,8 +24,7 @@ namespace TODO_LIST.Controllers
                 {
                     StatusCode = StatusCodes.Status404NotFound,
                     Message = "Todo Lists not found.",
-                    Data = null
-                });
+Data = new List<TodoListResponseDto>()                });
             }
 
             var userTodoLists = await _context.TodoLists
@@ -72,8 +71,8 @@ namespace TODO_LIST.Controllers
                 {
                     StatusCode = StatusCodes.Status404NotFound,
                     Message = "Todo Lists not found.",
-                    Data = null
-                });
+                    Data = new List<TodoListResponseDto>()                
+                    });
             }
 
             var userTodoLists = await _context.TodoLists
@@ -155,7 +154,7 @@ namespace TODO_LIST.Controllers
                 return NotFound(new ApiResponse<IEnumerable<TodoListResponseDto>>
                 {
                     StatusCode = StatusCodes.Status404NotFound,
-                    Message = "No todo lists found for the specified user.",
+                    Message = "No task has been added here.",
                     Data = null
                 });
             }
@@ -174,8 +173,7 @@ namespace TODO_LIST.Controllers
                 {
                     StatusCode = StatusCodes.Status404NotFound,
                     Message = "User Not found.",
-                    Data = null
-                });
+Data = new List<TodoListResponseDto>()                });
             }
 
             var responseDto = new TodoListResponseDto
@@ -189,11 +187,11 @@ namespace TODO_LIST.Controllers
                 Email = user.Email ?? "No Email"
             };
 
-            return Ok(new ApiResponse<IEnumerable<TodoListResponseDto>>
+            return Ok(new ApiResponse<TodoListResponseDto>
             {
                 StatusCode = StatusCodes.Status200OK,
                 Message = "Todo lists retrieved successfully.",
-                Data = responseDtos
+                Data = responseDto
             });
         }
 
@@ -370,7 +368,7 @@ namespace TODO_LIST.Controllers
     {
         public int StatusCode { get; set; }
         public string Message { get; set; } = string.Empty;
-        public T Data { get; set; } = default!;
+        public T? Data { get; set; } = default!;
     }
 
 }
