@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TodoList } from './todo-list.model'; 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, Observable, of } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -48,15 +48,15 @@ export class TodoListService {
 
   refreshList(): void {
     this.getListAsc().subscribe(
-        (res: TodoList[]) => { // Specify the type of response as TodoList[]
-            this.list = res; // Assign the array directly to this.list
-            console.log(this.list); // Log the list to verify
-        },
-        error => {
-            console.error('Error fetching list:', error); // Log any error
-        }
+      (res: TodoList[]) => { 
+        this.list = res; // Assign the array directly to this.list
+        console.log(this.list); // Log the list to verify
+      },
+      error => {
+        console.error('Error fetching list:', error); // Log any error
+      }
     );
-}
+  }
 
   resetFormData() {
     this.formData = new TodoList(); 
@@ -67,7 +67,12 @@ export class TodoListService {
     if (!this.userId) {
       return of([]); 
     }
-    return this.http.get<TodoList[]>(`${this.baseURL}/GetUserTasksAsc?userId=${this.userId}`, this.getHttpOptions()).pipe(
+  
+    return this.http.get<{ statusCode: number, message: string, data: TodoList[] }>(
+      `${this.baseURL}/GetUserTasksAsc?userId=${this.userId}`, 
+      this.getHttpOptions()
+    ).pipe(
+      map(response => response.data || []), // Extract the data property
       catchError(err => {
         console.error('Error fetching list ascending:', err);
         return of([]); 
