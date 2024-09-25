@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TodoList } from './todo-list.model'; 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +9,9 @@ import { Observable, of } from 'rxjs';
 export class TodoListService {
   private userId: number = Number(localStorage.getItem('userId')); 
 
-  private baseURL = `https://todolist-qlng.onrender.com/api/TodoList`;
-  readonly baseURLgetAsc = `https://todolist-qlng.onrender.com/api/TodoList/user/asc/`;
-  readonly baseURLgetDesc = `https://todolist-qlng.onrender.com/api/TodoList/user/desc/`;
+  private baseURL = 'https://todolist-qlng.onrender.com/api/TodoList';
+  readonly baseURLgetAsc = 'https://todolist-qlng.onrender.com/api/TodoList/user/asc';
+  readonly baseURLgetDesc = 'https://todolist-qlng.onrender.com/api/TodoList/user/desc';
 
   formData: TodoList = new TodoList();
   list: TodoList[] = [];
@@ -52,15 +52,35 @@ export class TodoListService {
     this.getListAsc().subscribe(res => this.list = res);
   }
 
-  getListAsc(): Observable<TodoList[]> {
-    this.initializeUserId(); 
-    return this.userId ? this.http.get<TodoList[]>(`${this.baseURLgetAsc}${this.userId}`) : of([]);
+  resetFormData() {
+    this.formData = new TodoList(); 
   }
 
-  // getListDesc(): Observable<TodoList[]> {
-  //   this.initializeUserId(); 
-  //   return this.userId ? this.http.get<TodoList[]>(`${this.baseURLgetDesc}${this.userId}`) : of([]);
-  // }
+  getListAsc(): Observable<TodoList[]> {
+    this.initializeUserId(); 
+    if (!this.userId) {
+      return of([]); 
+    }
+    return this.http.get<TodoList[]>(`${this.baseURLgetAsc}/${this.userId}`, this.getHttpOptions()).pipe(
+      catchError(err => {
+        console.error('Error fetching list ascending:', err);
+        return of([]); 
+      })
+    );
+  }
+  
+  getListDesc(): Observable<TodoList[]> {
+    this.initializeUserId(); 
+    if (!this.userId) {
+      return of([]); 
+    }
+    return this.http.get<TodoList[]>(`${this.baseURLgetDesc}/${this.userId}`, this.getHttpOptions()).pipe(
+      catchError(err => {
+        console.error('Error fetching list descending:', err);
+        return of([]); 
+      })
+    );
+  }
 
   updateUserId(newUserId: number): void {
     this.userId = newUserId;

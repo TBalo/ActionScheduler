@@ -1,0 +1,9 @@
+{
+    "/api": {
+      "target": "https://todolist-qlng.onrender.com",
+      "secure": true,
+      "changeOrigin": true,
+      "logLevel": "debug"
+    }
+  }
+  
