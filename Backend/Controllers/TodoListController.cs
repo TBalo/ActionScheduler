@@ -15,7 +15,7 @@ namespace TODO_LIST.Controllers
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-                 [HttpPost("CreateTask")]
+        [HttpPost("CreateTask")]
         public async Task<ActionResult<TodoListResponseDto>> PostTodoList(TodoListDto todoListDto)
         {
             if (_context.TodoLists == null)
@@ -101,9 +101,8 @@ namespace TODO_LIST.Controllers
             });
 
         }
-
         [HttpPut("UpdateTask")]
-        public async Task<ActionResult<TodoListResponseDto>> PutTodoList([FromQuery] int id, TodoListDto todoListDto)
+        public async Task<ActionResult<TodoListResponseDto>> PutTodoList([FromQuery] int id, [FromBody] TodoListDto todoListDto)
         {
             if (id != todoListDto.ListId)
             {
@@ -324,7 +323,8 @@ namespace TODO_LIST.Controllers
                     StatusCode = StatusCodes.Status404NotFound,
                     Message = "Task does not exist.",
                     Data = null
-                });            }
+                });
+            }
 
             var user = await _context.Users.FindAsync(todoList.UserId);
             if (user == null)
@@ -355,7 +355,7 @@ namespace TODO_LIST.Controllers
                 Data = responseDto
             });
         }
-       
+
         private bool TodoListExists(int id)
         {
             return (_context.TodoLists?.Any(e => e.ListId == id)).GetValueOrDefault();
