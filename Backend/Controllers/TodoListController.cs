@@ -66,8 +66,8 @@ namespace TODO_LIST.Controllers
             return CreatedAtAction("GetTodoList", new { id = todoList.ListId }, responseDto);
         }
 
-        [HttpDelete("Delete{id}")]
-        public async Task<IActionResult> DeleteTodoList(int id)
+        [HttpDelete("Delete")]
+        public async Task<IActionResult> DeleteTodoList([FromQuery] int id)
         {
             if (_context.TodoLists == null)
             {
@@ -102,8 +102,8 @@ namespace TODO_LIST.Controllers
 
         }
 
-        [HttpPut("UpdateTask{id}")]
-        public async Task<ActionResult<TodoListResponseDto>> PutTodoList(int id, TodoListDto todoListDto)
+        [HttpPut("UpdateTask")]
+        public async Task<ActionResult<TodoListResponseDto>> PutTodoList([FromQuery] int id, TodoListDto todoListDto)
         {
             if (id != todoListDto.ListId)
             {

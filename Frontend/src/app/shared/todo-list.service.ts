@@ -49,11 +49,11 @@ export class TodoListService {
   refreshList(): void {
     this.getListAsc().subscribe(
       (res: TodoList[]) => { 
-        this.list = res; // Assign the array directly to this.list
-        console.log(this.list); // Log the list to verify
+        this.list = res; 
+        console.log(this.list); 
       },
       error => {
-        console.error('Error fetching list:', error); // Log any error
+        console.error('Error fetching list:', error); 
       }
     );
   }
@@ -72,26 +72,34 @@ export class TodoListService {
       `${this.baseURL}/GetUserTasksAsc?userId=${this.userId}`, 
       this.getHttpOptions()
     ).pipe(
-      map(response => response.data || []), // Extract the data property
+      map(response => response.data || []), 
       catchError(err => {
         console.error('Error fetching list ascending:', err);
         return of([]); 
       })
     );
   }
-  
+
   getListDesc(): Observable<TodoList[]> {
     this.initializeUserId(); 
     if (!this.userId) {
       return of([]); 
     }
-    return this.http.get<TodoList[]>(`${this.baseURL}/GetUserTasksDesc?userId=${this.userId}`, this.getHttpOptions()).pipe(
+  
+    return this.http.get<{ statusCode: number, message: string, data: TodoList[] }>(
+      `${this.baseURL}/GetUserTasksDesc?userId=${this.userId}`, 
+      this.getHttpOptions()
+    ).pipe(
+      map(response => response.data || []), 
       catchError(err => {
-        console.error('Error fetching list descending:', err);
+        console.error('Error fetching list ascending:', err);
         return of([]); 
       })
     );
   }
+
+  
+
 
   updateUserId(newUserId: number): void {
     this.userId = newUserId;
