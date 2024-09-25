@@ -16,11 +16,16 @@ namespace TODO_LIST.Controllers
         }
 
         [HttpGet("GetUserTasksAsc/{userId}")]
-        public async Task<ActionResult<IEnumerable<TodoListResponseDto>>> GetTodoListsAscByUser(int userId)
+        public async Task<ActionResult<ApiResponse<IEnumerable<TodoListResponseDto>>>> GetTodoListsAscByUser(int userId)
         {
             if (_context.TodoLists == null)
             {
-                return NotFound();
+                return NotFound(new ApiResponse<IEnumerable<TodoListResponseDto>>
+                {
+                    StatusCode = StatusCodes.Status404NotFound,
+                    Message = "Todo Lists not found.",
+                    Data = null
+                });
             }
 
             var userTodoLists = await _context.TodoLists
@@ -30,7 +35,12 @@ namespace TODO_LIST.Controllers
 
             if (userTodoLists == null || !userTodoLists.Any())
             {
-                return NotFound("No todo lists found for the specified user.");
+                return NotFound(new ApiResponse<IEnumerable<TodoListResponseDto>>
+                {
+                    StatusCode = StatusCodes.Status404NotFound,
+                    Message = "No todo lists found for the specified user.",
+                    Data = null
+                });
             }
 
             var responseDtos = userTodoLists.Select(todoList => new TodoListResponseDto
@@ -44,15 +54,26 @@ namespace TODO_LIST.Controllers
                 Email = _context.Users.FirstOrDefault(u => u.UserId == todoList.UserId)?.Email ?? "No Email"
             });
 
-            return Ok(responseDtos);
+            return Ok(new ApiResponse<IEnumerable<TodoListResponseDto>>
+            {
+                StatusCode = StatusCodes.Status200OK,
+                Message = "Todo lists retrieved successfully.",
+                Data = responseDtos
+            });
         }
+
 
         [HttpGet("GetUserTasksDesc/{userId}")]
         public async Task<ActionResult<IEnumerable<TodoListResponseDto>>> GetTodoListsDescByUser(int userId)
         {
             if (_context.TodoLists == null)
             {
-                return NotFound();
+                return NotFound(new ApiResponse<IEnumerable<TodoListResponseDto>>
+                {
+                    StatusCode = StatusCodes.Status404NotFound,
+                    Message = "Todo Lists not found.",
+                    Data = null
+                });
             }
 
             var userTodoLists = await _context.TodoLists
@@ -62,7 +83,12 @@ namespace TODO_LIST.Controllers
 
             if (userTodoLists == null || !userTodoLists.Any())
             {
-                return NotFound("No todo lists found for the specified user.");
+                return NotFound(new ApiResponse<IEnumerable<TodoListResponseDto>>
+                {
+                    StatusCode = StatusCodes.Status404NotFound,
+                    Message = "No todo lists found for the specified user.",
+                    Data = null
+                });
             }
 
             var responseDtos = userTodoLists.Select(todoList => new TodoListResponseDto
@@ -76,7 +102,12 @@ namespace TODO_LIST.Controllers
                 Email = _context.Users.FirstOrDefault(u => u.UserId == todoList.UserId)?.Email ?? "No Email"
             });
 
-            return Ok(responseDtos);
+            return Ok(new ApiResponse<IEnumerable<TodoListResponseDto>>
+            {
+                StatusCode = StatusCodes.Status200OK,
+                Message = "Todo lists retrieved successfully.",
+                Data = responseDtos
+            });
         }
 
         [HttpGet("GetUserTasks/{userId}")]
@@ -108,7 +139,12 @@ namespace TODO_LIST.Controllers
                 Email = _context.Users.FirstOrDefault(u => u.UserId == todoList.UserId)?.Email ?? "No Email"
             });
 
-            return Ok(responseDtos);
+            return Ok(new ApiResponse<IEnumerable<TodoListResponseDto>>
+            {
+                StatusCode = StatusCodes.Status200OK,
+                Message = "Todo lists retrieved successfully.",
+                Data = responseDtos
+            });
         }
 
         [HttpGet("GetTaskbyId{id}")]
@@ -116,7 +152,12 @@ namespace TODO_LIST.Controllers
         {
             if (_context.TodoLists == null)
             {
-                return NotFound();
+                return NotFound(new ApiResponse<IEnumerable<TodoListResponseDto>>
+                {
+                    StatusCode = StatusCodes.Status404NotFound,
+                    Message = "No todo lists found for the specified user.",
+                    Data = null
+                });
             }
 
             var todoList = await _context.TodoLists.FindAsync(id);
@@ -129,7 +170,12 @@ namespace TODO_LIST.Controllers
             var user = await _context.Users.FindAsync(todoList.UserId);
             if (user == null)
             {
-                return NotFound("User not found.");
+                return NotFound(new ApiResponse<IEnumerable<TodoListResponseDto>>
+                {
+                    StatusCode = StatusCodes.Status404NotFound,
+                    Message = "User Not found.",
+                    Data = null
+                });
             }
 
             var responseDto = new TodoListResponseDto
@@ -143,11 +189,16 @@ namespace TODO_LIST.Controllers
                 Email = user.Email ?? "No Email"
             };
 
-            return Ok(responseDto);
+            return Ok(new ApiResponse<IEnumerable<TodoListResponseDto>>
+            {
+                StatusCode = StatusCodes.Status200OK,
+                Message = "Todo lists retrieved successfully.",
+                Data = responseDtos
+            });
         }
 
         [HttpPut("UpdateTask{id}")]
-        public async Task<IActionResult> PutTodoList(int id, TodoListDto todoListDto)
+        public async Task<ActionResult<TodoListResponseDto>> PutTodoList(int id, TodoListDto todoListDto)
         {
             if (id != todoListDto.ListId)
             {
@@ -157,7 +208,12 @@ namespace TODO_LIST.Controllers
             var todoList = await _context.TodoLists.FindAsync(id);
             if (todoList == null)
             {
-                return NotFound();
+                return NotFound(new ApiResponse<IEnumerable<TodoListResponseDto>>
+                {
+                    StatusCode = StatusCodes.Status404NotFound,
+                    Message = "No item has been added Todo.",
+                    Data = null
+                });
             }
 
             todoList.Task = todoListDto.Task ?? todoList.Task;
@@ -175,7 +231,12 @@ namespace TODO_LIST.Controllers
             {
                 if (!TodoListExists(id))
                 {
-                    return NotFound();
+                    return NotFound(new ApiResponse<IEnumerable<TodoListResponseDto>>
+                    {
+                        StatusCode = StatusCodes.Status404NotFound,
+                        Message = "Task does not exist.",
+                        Data = null
+                    });
                 }
                 else
                 {
@@ -183,7 +244,19 @@ namespace TODO_LIST.Controllers
                 }
             }
 
-            return NoContent();
+            var user = await _context.Users.FindAsync(todoList.UserId);
+            var responseDto = new TodoListResponseDto
+            {
+                ListId = todoList.ListId,
+                Task = todoList.Task,
+                Status = todoList.Status,
+                DueDate = todoList.DueDate,
+                UserId = todoList.UserId,
+                UserName = user?.UserName ?? "Unknown",
+                Email = user?.Email ?? "No Email"
+            };
+
+            return Ok(responseDto);
         }
 
         [HttpPost("CreateTask")]
@@ -197,7 +270,12 @@ namespace TODO_LIST.Controllers
             var user = await _context.Users.FindAsync(todoListDto.UserId);
             if (user == null)
             {
-                return NotFound("User not found.");
+                return NotFound(new ApiResponse<string>
+                {
+                    StatusCode = StatusCodes.Status404NotFound,
+                    Message = "User not found.",
+                    Data = null
+                });
             }
 
             var todoList = new TodoList
@@ -237,13 +315,23 @@ namespace TODO_LIST.Controllers
         {
             if (_context.TodoLists == null)
             {
-                return NotFound();
+                return NotFound(new ApiResponse<string>
+                {
+                    StatusCode = StatusCodes.Status404NotFound,
+                    Message = "No item has been added Todo.",
+                    Data = null
+                });
             }
 
             var todoList = await _context.TodoLists.FindAsync(id);
             if (todoList == null)
             {
-                return NotFound();
+                return NotFound(new ApiResponse<string>
+                {
+                    StatusCode = StatusCodes.Status404NotFound,
+                    Message = "Task does not exist.",
+                    Data = null
+                });
             }
 
             _context.TodoLists.Remove(todoList);
@@ -276,6 +364,13 @@ namespace TODO_LIST.Controllers
         public int UserId { get; set; }
         public string UserName { get; set; } = "Unknown";
         public string Email { get; set; } = "No Email";
+    }
+
+    public class ApiResponse<T>
+    {
+        public int StatusCode { get; set; }
+        public string Message { get; set; } = string.Empty;
+        public T Data { get; set; } = default!;
     }
 
 }
