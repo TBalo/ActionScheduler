@@ -3,26 +3,80 @@
     <div class="col-12 col-sm-8 col-md-6 col-lg-4">
       <div class="card p-4 shadow-sm">
         <h2 class="text-center mb-4">Sign Up</h2>
-        <form #signupForm="ngForm" (ngSubmit)="onSignup()">
+        <form #signupForm="ngForm" (ngSubmit)="onSignup(signupForm)" novalidate>
           <div class="mb-3">
             <label for="userName" class="form-label">User Name</label>
-            <input type="text" id="userName" [(ngModel)]="userName" name="userName" class="form-control"
-              placeholder="Enter your User Name" required />
+            <input
+              type="text"
+              id="userName"
+              [(ngModel)]="userName"
+              name="userName"
+              class="form-control"
+              placeholder="Enter your User Name"
+              required
+              #userNameField="ngModel"
+            />
+            <div *ngIf="signupForm.submitted && userNameField.invalid" class="text-danger">
+              <div *ngIf="userNameField.errors?.['required']">
+                User Name is required.
+              </div>
+            </div>
           </div>
+
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="email" id="email" [(ngModel)]="email" name="email" class="form-control"
-              placeholder="Enter your email" required />
+            <input
+              type="email"
+              id="email"
+              [(ngModel)]="email"
+              name="email"
+              class="form-control"
+              placeholder="Enter your email"
+              required
+              email
+              pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+              #emailField="ngModel"
+            />
+            <div *ngIf="signupForm.submitted && emailField.invalid" class="text-danger">
+              <div *ngIf="emailField.errors?.['required']">
+                Email is required.
+              </div>
+              <div *ngIf="emailField.errors?.['email'] || emailField.errors?.['pattern']">
+                Enter a valid email address.
+              </div>
+            </div>
           </div>
+
           <div class="mb-3 position-relative">
             <label for="password" class="form-label">Password</label>
-            <input [type]="isPasswordVisible ? 'text' : 'password'" id="password" [(ngModel)]="password" name="password"
-              class="form-control" placeholder="Enter your password" required />
-            <span (click)="togglePasswordVisibility()"
-              class="position-absolute top-50 end-0 translate-middle-y me-3 cursor-pointer">
+            <input
+              [type]="isPasswordVisible ? 'text' : 'password'"
+              id="password"
+              [(ngModel)]="password"
+              name="password"
+              class="form-control"
+              placeholder="Enter your password"
+              required
+              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+              #passwordField="ngModel"
+            />
+            <span
+              (click)="togglePasswordVisibility()"
+              class="position-absolute top-50 m-1 pt-4 end-0 translate-middle-y me-3 cursor-pointer"
+            >
               <i class="bi" [ngClass]="isPasswordVisible ? 'bi-eye' : 'bi-eye-slash'"></i>
             </span>
+            <div *ngIf="signupForm.submitted && passwordField.invalid" class="text-danger">
+              <div *ngIf="passwordField.errors?.['required']">
+                Password is required.
+              </div>
+              <div *ngIf="passwordField.errors?.['pattern']">
+                Password must be at least 8 characters long, contain one uppercase letter, one lowercase letter, one
+                number, and one special character.
+              </div>
+            </div>
           </div>
+
           <button type="submit" class="btn btn-primary w-100 mb-3" [disabled]="!signupForm.form.valid">
             Sign Up
           </button>

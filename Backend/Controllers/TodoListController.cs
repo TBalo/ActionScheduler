@@ -15,7 +15,7 @@ namespace TODO_LIST.Controllers
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        [HttpGet("user/asc/{userId}")]
+        [HttpGet("GetUserTasksAsc/{userId}")]
         public async Task<ActionResult<IEnumerable<TodoListResponseDto>>> GetTodoListsAscByUser(int userId)
         {
             if (_context.TodoLists == null)
@@ -47,7 +47,7 @@ namespace TODO_LIST.Controllers
             return Ok(responseDtos);
         }
 
-        [HttpGet("user/desc/{userId}")]
+        [HttpGet("GetUserTasksDesc/{userId}")]
         public async Task<ActionResult<IEnumerable<TodoListResponseDto>>> GetTodoListsDescByUser(int userId)
         {
             if (_context.TodoLists == null)
@@ -79,7 +79,7 @@ namespace TODO_LIST.Controllers
             return Ok(responseDtos);
         }
 
-        [HttpGet("user/{userId}")]
+        [HttpGet("GetUserTasks/{userId}")]
         public async Task<ActionResult<IEnumerable<TodoListResponseDto>>> GetTodoListsByUser(int userId)
         {
             if (_context.TodoLists == null)
@@ -111,7 +111,7 @@ namespace TODO_LIST.Controllers
             return Ok(responseDtos);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetTaskbyId{id}")]
         public async Task<ActionResult<TodoListResponseDto>> GetTodoList(int id)
         {
             if (_context.TodoLists == null)
@@ -146,7 +146,7 @@ namespace TODO_LIST.Controllers
             return Ok(responseDto);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("UpdateTask{id}")]
         public async Task<IActionResult> PutTodoList(int id, TodoListDto todoListDto)
         {
             if (id != todoListDto.ListId)
@@ -186,7 +186,7 @@ namespace TODO_LIST.Controllers
             return NoContent();
         }
 
-        [HttpPost]
+        [HttpPost("CreateTask")]
         public async Task<ActionResult<TodoListResponseDto>> PostTodoList(TodoListDto todoListDto)
         {
             if (_context.TodoLists == null)
@@ -232,7 +232,7 @@ namespace TODO_LIST.Controllers
             return CreatedAtAction("GetTodoList", new { id = todoList.ListId }, responseDto);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("Delete{id}")]
         public async Task<IActionResult> DeleteTodoList(int id)
         {
             if (_context.TodoLists == null)

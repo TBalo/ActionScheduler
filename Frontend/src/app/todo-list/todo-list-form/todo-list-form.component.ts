@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -10,13 +11,27 @@ import { TodoListService } from 'src/app/shared/todo-list.service';
   styleUrls: [],
 })
 export class TodoListFormComponent implements OnInit {
-  constructor(public service: TodoListService, private toastr: ToastrService) {}
+  constructor(public service: TodoListService, private toastr: ToastrService,  private datePipe: DatePipe,
+  ) {}
 
   ngOnInit(): void {}
 
   onSubmit(form: NgForm) {
-    if (this.service.formData.listId == 0) this.insertRecord(form);
-    else this.updateRecord(form);
+    if (!this.service.formData.listId) {
+      this.service.formData.listId = 0; 
+    }
+
+    const formattedDueDate = this.datePipe.transform(this.service.formData.dueDate, 'yyyy-MM-ddTHH:mm:ss.SSSZ');
+  
+    if (formattedDueDate) {
+      this.service.formData.dueDate = new Date(formattedDueDate);
+    }
+  
+    if (this.service.formData.listId === 0) {
+      this.insertRecord(form);
+    } else {
+      this.updateRecord(form);
+    }
   }
 
   insertRecord(form: NgForm) {

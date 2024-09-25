@@ -10,8 +10,6 @@ export class TodoListService {
   private userId: number = Number(localStorage.getItem('userId')); 
 
   private baseURL = 'https://todolist-qlng.onrender.com/api/TodoList';
-  readonly baseURLgetAsc = 'https://todolist-qlng.onrender.com/api/TodoList/user/asc';
-  readonly baseURLgetDesc = 'https://todolist-qlng.onrender.com/api/TodoList/user/desc';
 
   formData: TodoList = new TodoList();
   list: TodoList[] = [];
@@ -35,17 +33,17 @@ export class TodoListService {
   postTodoList(): Observable<TodoList> {
     this.initializeUserId(); 
     this.formData.userId = this.userId;
-    return this.http.post<TodoList>(`${this.baseURL}`, this.formData, this.getHttpOptions());
+    return this.http.post<TodoList>(`${this.baseURL}/CreateTask`, this.formData, this.getHttpOptions());
   }
 
   putTodoList(): Observable<void> {
     this.initializeUserId(); 
-    return this.http.put<void>(`${this.baseURL}/${this.formData.listId}`, this.formData, this.getHttpOptions());
+    return this.http.put<void>(`${this.baseURL}/UpdateTask/${this.formData.listId}`, this.formData, this.getHttpOptions());
   }
 
   deleteTodoList(id: number): Observable<void> {
     this.initializeUserId(); 
-    return this.http.delete<void>(`${this.baseURL}/${id}`, this.getHttpOptions());
+    return this.http.delete<void>(`${this.baseURL}/Delete/${id}`, this.getHttpOptions());
   }
 
   refreshList(): void {
@@ -61,7 +59,7 @@ export class TodoListService {
     if (!this.userId) {
       return of([]); 
     }
-    return this.http.get<TodoList[]>(`${this.baseURLgetAsc}/${this.userId}`, this.getHttpOptions()).pipe(
+    return this.http.get<TodoList[]>(`${this.baseURL}/GetUserTasksAsc/${this.userId}`, this.getHttpOptions()).pipe(
       catchError(err => {
         console.error('Error fetching list ascending:', err);
         return of([]); 
@@ -74,7 +72,7 @@ export class TodoListService {
     if (!this.userId) {
       return of([]); 
     }
-    return this.http.get<TodoList[]>(`${this.baseURLgetDesc}/${this.userId}`, this.getHttpOptions()).pipe(
+    return this.http.get<TodoList[]>(`${this.baseURL}/GetUserTasksDesc/${this.userId}`, this.getHttpOptions()).pipe(
       catchError(err => {
         console.error('Error fetching list descending:', err);
         return of([]); 
