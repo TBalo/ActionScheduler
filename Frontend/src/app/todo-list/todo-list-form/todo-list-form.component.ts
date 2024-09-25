@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { TodoList, TodoListDto } from 'src/app/shared/todo-list.model';
+import { TodoList, TodoListDto, UpdateTodoListPayload } from 'src/app/shared/todo-list.model';
 import { TodoListService } from 'src/app/shared/todo-list.service';
 
 @Component({
@@ -18,32 +18,32 @@ export class TodoListFormComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     if (!this.service.formData.listId) {
-      this.service.formData.listId = 0; 
+      this.service.formData.listId = 0;
     }
-
-    const formattedDueDate = this.datePipe.transform(this.service.formData.dueDate, 'yyyy-MM-ddTHH:mm:ss.SSSZ');
   
-    if (formattedDueDate) {
-      this.service.formData.dueDate = new Date(formattedDueDate);
-    }
-
-    const payload: TodoListDto = {
-      listId: this.service.formData.listId,
-      task: this.service.formData.task,
-      status: this.service.formData.status,
-      dueDate: this.datePipe.transform(this.service.formData.dueDate, 'yyyy-MM-ddTHH:mm:ss.SSSZ') as string,  // Ensure date format
-      userId: this.service.formData.userId  
+    const formattedDueDate = this.datePipe.transform(this.service.formData.dueDate, 'yyyy-MM-ddTHH:mm:ss.SSSZ') || '1970-01-01T00:00:00.000Z'; // Use a default date
+  
+    const payload: UpdateTodoListPayload = {
+      todoListDto: {
+        listId: this.service.formData.listId,
+        task: this.service.formData.task,
+        status: this.service.formData.status,
+        dueDate: formattedDueDate,  // Ensure this is a string
+        userId: this.service.formData.userId
+      }
     };
   
-    if (payload.listId === 0) {
+    // Pass the payload to your updateRecord method
+    if (payload.todoListDto.listId === 0) {
       this.insertRecord(payload, form);
     } else {
       this.updateRecord(payload, form);
     }
   }
+  
 
-  insertRecord(payload: TodoListDto, form: NgForm) {
-    this.service.postTodoList().subscribe(
+  insertRecord(payload: UpdateTodoListPayload, form: NgForm) {
+    this.service.postTodoList(payload).subscribe(
       (res) => {
         this.resetForm(form); 
         this.toastr.success('Task added successfully', 'Task Scheduler');
@@ -56,7 +56,7 @@ export class TodoListFormComponent implements OnInit {
     );
   }
 
-  updateRecord(payload: TodoListDto, form: NgForm) {
+  updateRecord(payload: UpdateTodoListPayload, form: NgForm) {
     this.service.putTodoList(payload).subscribe(
       (res) => {
         this.resetForm(form);

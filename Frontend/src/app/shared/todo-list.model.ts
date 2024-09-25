@@ -16,3 +16,7 @@ export interface TodoListDto {
     dueDate: string; 
     userId: number;
   }
+
+  export interface UpdateTodoListPayload {
+    todoListDto: TodoListDto; 
+  }
