@@ -23,7 +23,13 @@ export class TodoListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.service.refreshList();
+
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+        this.service.refreshList();
+    } else {
+    }
+
     this.service.resetFormData();
   }
 

@@ -47,8 +47,16 @@ export class TodoListService {
   }
 
   refreshList(): void {
-    this.getListAsc().subscribe(res => this.list = res);
-  }
+    this.getListAsc().subscribe(
+        (res: TodoList[]) => { // Specify the type of response as TodoList[]
+            this.list = res; // Assign the array directly to this.list
+            console.log(this.list); // Log the list to verify
+        },
+        error => {
+            console.error('Error fetching list:', error); // Log any error
+        }
+    );
+}
 
   resetFormData() {
     this.formData = new TodoList(); 
