@@ -31,66 +31,78 @@ namespace TODO_LIST.Controllers
         {
             if (string.IsNullOrEmpty(request.UserName) || string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password))
             {
-                return BadRequest("All fields are required.");
+                return BadRequest(new { message = "All fields are required." });
             }
 
             if (_context.Users.Any(u => u.Email == request.Email))
             {
-                return BadRequest("Email is already in use."); 
+                return BadRequest(new { message = "Email is already in use." });
             }
 
-            var newUser = new User
+            try
             {
-                UserName = request.UserName,
-                Email = request.Email,
-                Password = request.Password
-            };
+                var newUser = new User
+                {
+                    UserName = request.UserName,
+                    Email = request.Email,
+                    Password = request.Password
+                };
 
-            _context.Users.Add(newUser);
-            await _context.SaveChangesAsync();
+                _context.Users.Add(newUser);
+                await _context.SaveChangesAsync();
 
-            return Ok(new
+                return Ok(new { message = "User registered successfully" });
+            }
+            catch (Exception ex)
             {
-                message = "User registered successfully",
-                user = new { newUser.Email }
-            });
+                return StatusCode(500, new { message = "An unexpected error occurred: " + ex.Message });
+            }
         }
+
 
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            if (string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password))
+            try
             {
-                return BadRequest("Email and password are required.");
-            }
-
-            var existingUser = await _context.Users
-                .FirstOrDefaultAsync(u => u.Email == request.Email && u.Password == request.Password);
-
-            if (existingUser == null)
-            {
-                return Unauthorized("Invalid email or password.");
-            }
-
-            var token = GenerateToken(existingUser);
-
-            return Ok(new
-            {
-                message = "Login successful",
-                data = new
+                if (string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password))
                 {
-                    user = new
+                    return BadRequest("Email and password are required.");
+                }
+
+                var existingUser = await _context.Users
+                    .FirstOrDefaultAsync(u => u.Email == request.Email && u.Password == request.Password);
+
+                if (existingUser == null)
+                {
+                    return Unauthorized("Invalid email or password.");
+                }
+
+                var token = GenerateToken(existingUser);
+
+                return Ok(new
+                {
+                    message = "Login successful",
+                    data = new
                     {
-                        existingUser.UserName,
-                        existingUser.Email,
-                        existingUser.UserId
+                        user = new
+                        {
+                            existingUser.UserName,
+                            existingUser.Email,
+                            existingUser.UserId
+                        },
+                        token
                     },
-                    token
-                },
-                status = 200
-            });
+                    status = 200
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An unexpected error occurred: " + ex.Message });
+            }
         }
+
 
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest request)

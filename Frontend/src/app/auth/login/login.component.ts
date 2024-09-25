@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/shared/AuthService';
 import { TodoListService } from 'src/app/shared/todo-list.service'; 
 
@@ -12,37 +11,16 @@ export class LoginComponent {
   email: string = '';
   password: string = '';
   isPasswordVisible: boolean = false;
+  errorMessage: string = '';  
+  backendError: string = '';
 
-  private toasts = [
-    { title: 'Login Error', content: 'Invalid credentials.', isOpen: false }
-  ];
-  
-  private toastFlag = 0; 
-  private timeOutDelay = 10000; 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private todoListService: TodoListService,
-    private toastr: ToastrService
+    private todoListService: TodoListService
   ) {}
 
-  private emailPattern: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-  private passwordPattern: RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
   onLogin(): void {
-    this.toastFlag = 0;
-
-    if (!this.emailPattern.test(this.email)) {
-      this.showToast(0); 
-      return;
-    }
-
-    if (!this.passwordPattern.test(this.password)) {
-      this.showToast(1); 
-      return;
-    }
-
     const user = {
       email: this.email,
       password: this.password
@@ -56,10 +34,15 @@ export class LoginComponent {
         this.todoListService.clearCache();
         this.todoListService.updateUserId(res.data.user.userId);
         this.router.navigate(['/todo-list']);
+        this.errorMessage = '';  
       },
-      err => {
-        console.log('Login failed:', err);
-        this.showToast(2); 
+      (error) => {
+        if (error.error && error.error.message) {
+          this.showBackendError(error.error.message);  
+        } else {
+          this.showBackendError('Login failed. Please try again.');
+        }
+        console.error('Login failed:', error);
       }
     );
   }
@@ -68,13 +51,7 @@ export class LoginComponent {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
 
-  private showToast(index: number) {
-    if (!this.toasts[index].isOpen) {
-      this.toasts[index].isOpen = true;
-      this.toastr.error(this.toasts[index].content, this.toasts[index].title);
-      setTimeout(() => {
-        this.toasts[index].isOpen = false; 
-      }, this.timeOutDelay);
-    }
+  showBackendError(message: string): void {
+    this.backendError = message; 
   }
 }
