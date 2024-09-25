@@ -30,15 +30,18 @@ export class TodoListService {
     }
   }
 
-  postTodoList(payload: UpdateTodoListPayload): Observable<TodoList> {
+  postTodoList(): Observable<TodoList> {
     this.initializeUserId(); 
     this.formData.userId = this.userId;
-    return this.http.post<TodoList>(`${this.baseURL}/CreateTask`, payload, this.getHttpOptions());
+    return this.http.post<TodoList>(`${this.baseURL}/CreateTask`, this.formData, this.getHttpOptions());
   }
 
-  putTodoList(payload: UpdateTodoListPayload): Observable<void> {
-    this.initializeUserId();
-    return this.http.put<void>(`${this.baseURL}/UpdateTask?id=${payload.todoListDto.listId}`, payload, this.getHttpOptions());
+  putTodoList(payload: TodoListDto): Observable<void> {
+    return this.http.put<void>(
+      `${this.baseURL}/UpdateTask?id=${payload.listId}`,
+      payload,
+      this.getHttpOptions()
+    );
   }
 
   deleteTodoList(id: number): Observable<void> {

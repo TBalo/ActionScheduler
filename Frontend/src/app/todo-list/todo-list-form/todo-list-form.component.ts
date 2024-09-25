@@ -23,27 +23,25 @@ export class TodoListFormComponent implements OnInit {
   
     const formattedDueDate = this.datePipe.transform(this.service.formData.dueDate, 'yyyy-MM-ddTHH:mm:ss.SSSZ') || '1970-01-01T00:00:00.000Z'; // Use a default date
   
-    const payload: UpdateTodoListPayload = {
-      todoListDto: {
+    const payload: TodoListDto = {
         listId: this.service.formData.listId,
         task: this.service.formData.task,
         status: this.service.formData.status,
         dueDate: formattedDueDate,  // Ensure this is a string
         userId: this.service.formData.userId
-      }
     };
   
     // Pass the payload to your updateRecord method
-    if (payload.todoListDto.listId === 0) {
-      this.insertRecord(payload, form);
+    if (payload.listId === 0) {
+      this.insertRecord(form);
     } else {
       this.updateRecord(payload, form);
     }
   }
   
 
-  insertRecord(payload: UpdateTodoListPayload, form: NgForm) {
-    this.service.postTodoList(payload).subscribe(
+  insertRecord(form: NgForm) {
+    this.service.postTodoList().subscribe(
       (res) => {
         this.resetForm(form); 
         this.toastr.success('Task added successfully', 'Task Scheduler');
@@ -56,7 +54,7 @@ export class TodoListFormComponent implements OnInit {
     );
   }
 
-  updateRecord(payload: UpdateTodoListPayload, form: NgForm) {
+  updateRecord(payload: TodoListDto, form: NgForm) {
     this.service.putTodoList(payload).subscribe(
       (res) => {
         this.resetForm(form);
