@@ -7,3 +7,12 @@ export class TodoList {
     dueDate:Date;
     userId:number;
 }
+
+
+export interface TodoListDto {
+    listId: number;
+    task: string;
+    status: boolean;
+    dueDate: string; 
+    userId: number;
+  }

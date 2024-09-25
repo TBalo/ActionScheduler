@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TodoList } from './todo-list.model'; 
+import { TodoList, TodoListDto } from './todo-list.model'; 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, Observable, of } from 'rxjs';
 
@@ -36,9 +36,12 @@ export class TodoListService {
     return this.http.post<TodoList>(`${this.baseURL}/CreateTask`, this.formData, this.getHttpOptions());
   }
 
-  putTodoList(): Observable<void> {
-    this.initializeUserId(); 
-    return this.http.put<void>(`${this.baseURL}/UpdateTask?id=${this.formData.listId}`, this.formData, this.getHttpOptions());
+  putTodoList(payload: TodoListDto): Observable<void> {
+    return this.http.put<void>(
+      `${this.baseURL}/UpdateTask?id=${payload.listId}`,
+      payload,
+      this.getHttpOptions()
+    );
   }
 
   deleteTodoList(id: number): Observable<void> {
@@ -50,7 +53,6 @@ export class TodoListService {
     this.getListAsc().subscribe(
       (res: TodoList[]) => { 
         this.list = res; 
-        console.log(this.list); 
       },
       error => {
         console.error('Error fetching list:', error); 
