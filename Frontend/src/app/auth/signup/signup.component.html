@@ -34,14 +34,13 @@
               placeholder="Enter your email"
               required
               email
-              pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
               #emailField="ngModel"
             />
             <div *ngIf="signupForm.submitted && emailField.invalid" class="text-danger">
               <div *ngIf="emailField.errors?.['required']">
                 Email is required.
               </div>
-              <div *ngIf="emailField.errors?.['email'] || emailField.errors?.['pattern']">
+              <div *ngIf="emailField.errors?.['email']">
                 Enter a valid email address.
               </div>
             </div>
@@ -57,7 +56,6 @@
               class="form-control"
               placeholder="Enter your password"
               required
-              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
               #passwordField="ngModel"
             />
             <span
@@ -70,7 +68,7 @@
               <div *ngIf="passwordField.errors?.['required']">
                 Password is required.
               </div>
-              <div *ngIf="passwordField.errors?.['pattern']">
+              <div *ngIf="!isPasswordValid()">
                 Password must be at least 8 characters long, contain one uppercase letter, one lowercase letter, one
                 number, and one special character.
               </div>

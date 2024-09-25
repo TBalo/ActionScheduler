@@ -20,8 +20,8 @@ export class SignupComponent {
     { title: 'Signup Error', content: 'Signup failed. Please try again.', isOpen: false }
   ];
 
-  private toastFlag = 0; 
-  private timeOutDelay = 600; 
+  private toastFlag = 0;
+  private timeOutDelay = 10000;
 
   constructor(private router: Router, private authService: AuthService, private toastr: ToastrService) {}
 
@@ -29,17 +29,22 @@ export class SignupComponent {
     this.toastFlag = 0;
 
     if (!this.userName) {
-      this.showToast(0); 
+      this.showToast(0);
       return;
     }
 
     if (!this.email) {
-      this.showToast(1); 
+      this.showToast(1);
       return;
     }
 
     if (!this.password) {
-      this.showToast(2); 
+      this.showToast(2);
+      return;
+    }
+
+    if (!this.isPasswordValid()) {
+      this.showToast(2);
       return;
     }
 
@@ -56,7 +61,7 @@ export class SignupComponent {
       },
       (error) => {
         console.error('Signup failed:', error);
-        this.showToast(3); 
+        this.showToast(3);
       }
     );
   }
@@ -65,12 +70,17 @@ export class SignupComponent {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
 
+  isPasswordValid(): boolean {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_\-])[A-Za-z\d@$!%*?&_\-]{8,}$/;
+    return passwordRegex.test(this.password);
+  }
+
   private showToast(index: number) {
     if (!this.toasts[index].isOpen) {
       this.toasts[index].isOpen = true;
       this.toastr.error(this.toasts[index].content, this.toasts[index].title);
       setTimeout(() => {
-        this.toasts[index].isOpen = false; 
+        this.toasts[index].isOpen = false;
       }, this.timeOutDelay);
     }
   }
