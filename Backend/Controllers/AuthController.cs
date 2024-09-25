@@ -26,7 +26,6 @@ namespace TODO_LIST.Controllers
             _configuration = configuration;
         }
 
-        // POST: api/Auth/signup
         [HttpPost("signup")]
         public async Task<IActionResult> Signup([FromBody] SignupRequest request)
         {
@@ -40,7 +39,6 @@ namespace TODO_LIST.Controllers
                 return BadRequest("Email is already in use.");
             }
 
-            // Create new user with email and password
             var newUser = new User
             {
                 UserName = request.UserName,
@@ -58,7 +56,6 @@ namespace TODO_LIST.Controllers
             });
         }
 
-        // POST: api/Auth/login
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
@@ -94,7 +91,6 @@ namespace TODO_LIST.Controllers
             });
         }
 
-        // POST: api/Auth/forgot-password
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest request)
         {
@@ -109,17 +105,14 @@ namespace TODO_LIST.Controllers
                 return NotFound("Email address not found.");
             }
 
-            // Generate a reset token and expiry (optional, not needed now)
-            var resetLink = $"https://actionscheduler.netlify.app/reset-password?email={request.Email}"; // Generate actual reset link
+            var resetLink = $"https://actionscheduler.netlify.app/reset-password?email={request.Email}"; 
 
-            // Send email to user (assuming your EmailService is implemented)
             var emailService = new EmailService();
             await emailService.SendPasswordResetEmail(request.Email, resetLink);
 
             return Ok("Password reset email sent.");
         }
 
-        // POST: api/Auth/reset-password
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
         {
@@ -139,14 +132,12 @@ namespace TODO_LIST.Controllers
                 return NotFound("User not found.");
             }
 
-            // Update user password (consider hashing in real-world use cases)
             user.Password = request.NewPassword;
             await _context.SaveChangesAsync();
 
             return Ok("Password has been reset.");
         }
 
-        // GET: api/Auth/users
         [HttpGet("users")]
         public async Task<IActionResult> GetUsers()
         {
@@ -162,7 +153,6 @@ namespace TODO_LIST.Controllers
             return Ok(users);
         }
 
-        // GET: api/Auth/user/{id}
         [HttpGet("user/{id}")]
         public async Task<IActionResult> GetUserById(int id)
         {

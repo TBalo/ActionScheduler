@@ -38,12 +38,12 @@ export class TodoListService {
 
   putTodoList(): Observable<void> {
     this.initializeUserId(); 
-    return this.http.put<void>(`${this.baseURL}/UpdateTask/${this.formData.listId}`, this.formData, this.getHttpOptions());
+    return this.http.put<void>(`${this.baseURL}/UpdateTask?listId=${this.formData.listId}`, this.formData, this.getHttpOptions());
   }
 
   deleteTodoList(id: number): Observable<void> {
     this.initializeUserId(); 
-    return this.http.delete<void>(`${this.baseURL}/Delete/${id}`, this.getHttpOptions());
+    return this.http.delete<void>(`${this.baseURL}/Delete?id=${id}`, this.getHttpOptions());
   }
 
   refreshList(): void {
@@ -59,7 +59,7 @@ export class TodoListService {
     if (!this.userId) {
       return of([]); 
     }
-    return this.http.get<TodoList[]>(`${this.baseURL}/GetUserTasksAsc/${this.userId}`, this.getHttpOptions()).pipe(
+    return this.http.get<TodoList[]>(`${this.baseURL}/GetUserTasksAsc?userId=${this.userId}`, this.getHttpOptions()).pipe(
       catchError(err => {
         console.error('Error fetching list ascending:', err);
         return of([]); 
@@ -72,7 +72,7 @@ export class TodoListService {
     if (!this.userId) {
       return of([]); 
     }
-    return this.http.get<TodoList[]>(`${this.baseURL}/GetUserTasksDesc/${this.userId}`, this.getHttpOptions()).pipe(
+    return this.http.get<TodoList[]>(`${this.baseURL}/GetUserTasksDesc?userId=${this.userId}`, this.getHttpOptions()).pipe(
       catchError(err => {
         console.error('Error fetching list descending:', err);
         return of([]); 
