@@ -43,10 +43,10 @@ export class TodoListComponent implements OnInit {
         (res) => {
           this.service.refreshList();
           this.toastr.success('Deleted successfully', 'Task Scheduler');
-          this.toastr.error('Unable to delete', 'Task Scheduler');
         },
         (err) => {
           console.log(err);
+          this.toastr.error('Unable to delete', 'Task Scheduler');
         }
       );
   }

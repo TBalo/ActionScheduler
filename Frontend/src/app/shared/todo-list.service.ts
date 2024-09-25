@@ -38,7 +38,7 @@ export class TodoListService {
 
   putTodoList(): Observable<void> {
     this.initializeUserId(); 
-    return this.http.put<void>(`${this.baseURL}/UpdateTask?listId=${this.formData.listId}`, this.formData, this.getHttpOptions());
+    return this.http.put<void>(`${this.baseURL}/UpdateTask?id=${this.formData.listId}`, this.formData, this.getHttpOptions());
   }
 
   deleteTodoList(id: number): Observable<void> {
