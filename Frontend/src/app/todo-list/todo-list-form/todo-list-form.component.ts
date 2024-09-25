@@ -18,32 +18,32 @@ export class TodoListFormComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     if (!this.service.formData.listId) {
-      this.service.formData.listId = 0;
+        this.service.formData.listId = 0;
     }
-  
 
     const formattedDueDate = this.datePipe.transform(
-      this.service.formData.dueDate, 'yyyy-MM-ddTHH:mm:ss.SSSZ') || this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm:ss.SSSZ');
+        this.service.formData.dueDate, 
+        'yyyy-MM-ddTHH:mm:ss.SSS\'Z\''
+    ) || this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm:ss.SSS\'Z\'');
 
     if (formattedDueDate) {
-      this.service.formData.dueDate = new Date(formattedDueDate);
+        this.service.formData.dueDate = new Date(formattedDueDate);
     }
-  
+
     const payload: TodoListDto = {
         listId: this.service.formData.listId,
         task: this.service.formData.task,
         status: this.service.formData.status,
-        dueDate: formattedDueDate,  
+        dueDate: formattedDueDate, 
         userId: this.service.formData.userId
     };
-  
+
     if (payload.listId === 0) {
-      this.insertRecord(form);
+        this.insertRecord(form);
     } else {
-      this.updateRecord(payload, form);
+        this.updateRecord(payload, form);
     }
-  }
-  
+}
 
   insertRecord(form: NgForm) {
     this.service.postTodoList().subscribe(
@@ -68,9 +68,10 @@ export class TodoListFormComponent implements OnInit {
       },
       (err) => {
         console.log(err);
+        this.toastr.error('Failed to update', 'Task Scheduler');
       }
     );
-  }
+}
 
   resetForm(form: NgForm) {
     form.reset();
