@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/shared/AuthService';
-import { TodoListService } from 'src/app/shared/todo-list.service'; // Ensure the path is correct
+import { TodoListService } from 'src/app/shared/todo-list.service'; 
 
 @Component({
   selector: 'app-login',
@@ -13,7 +13,6 @@ export class LoginComponent {
   password: string = '';
   isPasswordVisible: boolean = false;
 
-  // Array to store toast messages
   private toasts = [
     { title: 'Invalid Email', content: 'Please enter a valid email address.', isOpen: false },
     { title: 'Invalid Password', content: 'Password must be at least 8 characters long, contain one uppercase letter, one lowercase letter, one number, and one special character.', isOpen: false },
