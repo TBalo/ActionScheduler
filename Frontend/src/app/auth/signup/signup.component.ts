@@ -12,6 +12,7 @@ export class SignupComponent {
   email: string = '';
   password: string = '';
   isPasswordVisible: boolean = false;
+  isSubmitting: boolean = false;  // Track the submission state
 
   private toasts = [
     { title: 'Invalid User Name', content: 'User Name is required.', isOpen: false },
@@ -27,24 +28,29 @@ export class SignupComponent {
 
   onSignup(signupForm: any): void {
     this.toastFlag = 0;
+    this.isSubmitting = true;  // Start the submission process
 
     if (!this.userName) {
       this.showToast(0);
+      this.isSubmitting = false; // Reset on error
       return;
     }
 
     if (!this.email) {
       this.showToast(1);
+      this.isSubmitting = false; // Reset on error
       return;
     }
 
     if (!this.password) {
       this.showToast(2);
+      this.isSubmitting = false; // Reset on error
       return;
     }
 
     if (!this.isPasswordValid()) {
       this.showToast(2);
+      this.isSubmitting = false; // Reset on error
       return;
     }
 
@@ -62,6 +68,9 @@ export class SignupComponent {
       (error) => {
         console.error('Signup failed:', error);
         this.showToast(3);
+      },
+      () => {
+        this.isSubmitting = false;  // Reset after the request completes
       }
     );
   }

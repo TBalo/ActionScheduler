@@ -75,7 +75,7 @@
             </div>
           </div>
 
-          <button type="submit" class="btn btn-primary w-100 mb-3" [disabled]="!signupForm.form.valid">
+          <button type="submit" class="btn btn-primary w-100 mb-3" [disabled]="!signupForm.form.valid || isSubmitting">
             Sign Up
           </button>
         </form>

@@ -36,7 +36,7 @@ namespace TODO_LIST.Controllers
 
             if (_context.Users.Any(u => u.Email == request.Email))
             {
-                return BadRequest("Email is already in use.");
+                return BadRequest("Email is already in use."); 
             }
 
             var newUser = new User
@@ -55,6 +55,7 @@ namespace TODO_LIST.Controllers
                 user = new { newUser.Email }
             });
         }
+
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
@@ -105,7 +106,7 @@ namespace TODO_LIST.Controllers
                 return NotFound("Email address not found.");
             }
 
-            var resetLink = $"https://actionscheduler.netlify.app/reset-password?email={request.Email}"; 
+            var resetLink = $"https://actionscheduler.netlify.app/reset-password?email={request.Email}";
 
             var emailService = new EmailService();
             await emailService.SendPasswordResetEmail(request.Email, resetLink);

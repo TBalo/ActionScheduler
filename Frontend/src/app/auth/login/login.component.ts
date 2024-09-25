@@ -14,9 +14,7 @@ export class LoginComponent {
   isPasswordVisible: boolean = false;
 
   private toasts = [
-    { title: 'Invalid Email', content: 'Please enter a valid email address.', isOpen: false },
-    { title: 'Invalid Password', content: 'Password must be at least 8 characters long, contain one uppercase letter, one lowercase letter, one number, and one special character.', isOpen: false },
-    { title: 'Login Error', content: 'Login failed. Please check your credentials.', isOpen: false }
+    { title: 'Login Error', content: 'Invalid credentials.', isOpen: false }
   ];
   
   private toastFlag = 0; 
