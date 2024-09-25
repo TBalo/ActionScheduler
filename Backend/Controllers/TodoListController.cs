@@ -164,14 +164,14 @@ namespace TODO_LIST.Controllers
             return Ok(new ApiResponse<TodoListResponseDto>
             {
                 StatusCode = StatusCodes.Status200OK,
-                Message = "Updated successfully",
+                Message = "Task Updated successfully",
                 Data = responseDto
             });
         }
 
 
-        [HttpGet("GetUserTasksAsc{userId}")]
-        public async Task<ActionResult<ApiResponse<IEnumerable<TodoListResponseDto>>>> GetTodoListsAscByUser(int userId)
+        [HttpGet("GetUserTasksAsc")]
+        public async Task<ActionResult<ApiResponse<IEnumerable<TodoListResponseDto>>>> GetTodoListsAscByUser([FromQuery] int userId)
         {
             if (_context.TodoLists == null)
             {
@@ -218,8 +218,8 @@ namespace TODO_LIST.Controllers
         }
 
 
-        [HttpGet("GetUserTasksDesc{userId}")]
-        public async Task<ActionResult<IEnumerable<TodoListResponseDto>>> GetTodoListsDescByUser(int userId)
+        [HttpGet("GetUserTasksDesc")]
+        public async Task<ActionResult<IEnumerable<TodoListResponseDto>>> GetTodoListsDescByUser([FromQuery] int userId)
         {
             if (_context.TodoLists == null)
             {
@@ -265,8 +265,8 @@ namespace TODO_LIST.Controllers
             });
         }
 
-        [HttpGet("GetUserTasks{userId}")]
-        public async Task<ActionResult<IEnumerable<TodoListResponseDto>>> GetTodoListsByUser(int userId)
+        [HttpGet("GetUserTasks")]
+        public async Task<ActionResult<IEnumerable<TodoListResponseDto>>> GetTodoListsByUser([FromQuery] int userId)
         {
             if (_context.TodoLists == null)
             {
@@ -319,8 +319,12 @@ namespace TODO_LIST.Controllers
 
             if (todoList == null)
             {
-                return NotFound();
-            }
+                return NotFound(new ApiResponse<IEnumerable<TodoListResponseDto>>
+                {
+                    StatusCode = StatusCodes.Status404NotFound,
+                    Message = "Task does not exist.",
+                    Data = null
+                });            }
 
             var user = await _context.Users.FindAsync(todoList.UserId);
             if (user == null)
