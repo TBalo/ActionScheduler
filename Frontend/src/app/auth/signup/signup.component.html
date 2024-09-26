@@ -6,7 +6,6 @@
 
         <div class="text-danger" *ngIf="backendError">{{ backendError }}</div>
 
-
         <form #signupForm="ngForm" (ngSubmit)="onSignup(signupForm)" novalidate>
           <div class="mb-3">
             <label for="userName" class="form-label">User Name</label>
@@ -14,53 +13,44 @@
               type="text"
               id="userName"
               [(ngModel)]="userName"
-              name="userName"
+              name="User Name"
               class="form-control"
               placeholder="Enter your User Name"
               required
               #userNameField="ngModel"
+              (blur)="handleBlur(userNameField)"
             />
-            <div *ngIf="signupForm.submitted && userNameField.invalid" class="text-danger">
-              <div *ngIf="userNameField.errors?.['required']">
-                User Name is required.
-              </div>
-            </div>
           </div>
-
+          
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
             <input
               type="email"
               id="email"
               [(ngModel)]="email"
-              name="email"
+              name="Email"
               class="form-control"
               placeholder="Enter your email"
               required
               email
               #emailField="ngModel"
+              (blur)="handleBlur(emailField)"
             />
-            <div *ngIf="signupForm.submitted && emailField.invalid" class="text-danger">
-              <div *ngIf="emailField.errors?.['required']">
-                Email is required.
-              </div>
-              <div *ngIf="emailField.errors?.['email']">
-                Enter a valid email address.
-              </div>
-            </div>
           </div>
-
+          
           <div class="mb-3 position-relative">
             <label for="password" class="form-label">Password</label>
             <input
               [type]="isPasswordVisible ? 'text' : 'password'"
               id="password"
               [(ngModel)]="password"
-              name="password"
+              name="Password"
               class="form-control"
               placeholder="Enter your password"
               required
+              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_\-])[A-Za-z\d@$!%*?&_\-]{8,}$"
               #passwordField="ngModel"
+              (blur)="handleBlur(passwordField)"
             />
             <span
               (click)="togglePasswordVisibility()"
@@ -69,8 +59,8 @@
               <i class="bi" [ngClass]="isPasswordVisible ? 'bi-eye' : 'bi-eye-slash'"></i>
             </span>
           </div>
-
-          <button type="submit" class="btn btn-primary w-100 mb-3" [disabled]="isSubmitting">
+          
+          <button type="submit" class="btn btn-primary w-100 mb-3" [disabled]="signupForm.invalid || isSubmitting">
             Sign Up
           </button>
         </form>
@@ -80,15 +70,7 @@
           <a routerLink="/login" class="text-decoration-none">Login</a>
         </p>
 
-        <div *ngIf="signupForm.submitted && passwordField.invalid" class="text-danger">
-          <div *ngIf="passwordField.errors?.['required']">
-            Password is required.
-          </div>
-          <div *ngIf="!isPasswordValid()">
-            Password must be at least 8 characters long, contain one uppercase letter, one lowercase letter, one
-            number, and one special character.
-          </div>
-        </div>
+        
       </div>
     </div>
   </div>

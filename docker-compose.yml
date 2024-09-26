@@ -9,7 +9,7 @@ services:
       - "8080:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - ConnectionStrings__DevConnection=Host=dpg-crp9fmo8fa8c73ducsb0-a.oregon-postgres.render.com;Database=todolistdb_dg7h;Username=admin;Password=txXNRl6KFWQAOM5YROw1V56QWjhZg3L9;
+      - ConnectionStrings__DevConnection=Host=dpg-crp9fmo8fa8c73ducsb0-a;Database=todolistdb_dg7h;Username=admin;Password=txXNRl6KFWQAOM5YROw1V56QWjhZg3L9;
       - Jwt__Key=2nmqkYbtQQrGPj3IsCt1IkMiiWp4HYcSrzTGaUCeKT0=
     depends_on:
       - db

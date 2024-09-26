@@ -49,6 +49,28 @@ export class SignupComponent {
     );
   }
 
+  handleBlur(field: any): void {
+    if (field.invalid) {
+      this.showBackendError(this.getErrorMessage(field));
+    } else {
+      this.backendError = ''; // Clear error message if the field is valid
+    }
+  }
+  
+  getErrorMessage(field: any): string {
+    if (field.errors?.['required']) {
+      return `${field.name} is required.`;
+    }
+    if (field.errors?.['email']) {
+      return 'Enter a valid email address.';
+    }
+    if (field.errors?.['pattern']) {
+      return 'Password must be at least 8 characters long, contain one uppercase letter, one lowercase letter, one number, and one special character.';
+    }
+    return '';
+  }
+  
+
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
