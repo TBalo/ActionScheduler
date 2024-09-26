@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
-        policy => policy.WithOrigins("https://actionscheduler.netlify.app")
+        policy => policy.WithOrigins("https://actionscheduler.vercel.app")
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials()); 
