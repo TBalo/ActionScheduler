@@ -7,7 +7,7 @@ The Frontend was built with Angular. Backend was done with ASP.NET
 
 ### Deployment
 The frontend is deployed and hosted using Netlify. The application is accessible via the following URL:
-- [Action Scheduler - Frontend](https://actionscheduler.netlify.app)
+- [Action Scheduler - Frontend](https://actionscheduler.vercel.app/)
 
 You can run locally with `ng serve` Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
