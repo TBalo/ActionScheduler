@@ -118,7 +118,7 @@ namespace TODO_LIST.Controllers
                 return NotFound("Email address not found.");
             }
 
-            var resetLink = $"https://actionscheduler.netlify.app/reset-password?email={request.Email}";
+            var resetLink = $"https://actionscheduler.vercel.app/reset-password?email={request.Email}";
 
             var emailService = new EmailService();
             await emailService.SendPasswordResetEmail(request.Email, resetLink);

@@ -13,6 +13,8 @@ export class LoginComponent {
   isPasswordVisible: boolean = false;
   errorMessage: string = '';  
   backendError: string = '';
+  isSubmitting: boolean = false;  
+
 
   constructor(
     private authService: AuthService,
@@ -20,7 +22,16 @@ export class LoginComponent {
     private todoListService: TodoListService
   ) {}
 
-  onLogin(): void {
+  onLogin(loginForm: any): void {
+
+    this.isSubmitting = true;
+    this.errorMessage = '';  
+
+    if (loginForm.invalid) {
+      this.isSubmitting = false;  
+      return;
+    }
+
     const user = {
       email: this.email,
       password: this.password
@@ -37,6 +48,7 @@ export class LoginComponent {
         this.errorMessage = '';  
       },
       (error) => {
+        this.isSubmitting = true;
         if (error.error && error.error.message) {
           this.showBackendError(error.error.message);  
         } else {
@@ -50,6 +62,7 @@ export class LoginComponent {
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
+
 
   showBackendError(message: string): void {
     this.backendError = message; 

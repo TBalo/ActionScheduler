@@ -20,7 +20,6 @@
               required
               #userNameField="ngModel"
             />
-            <!-- Client-side validation message -->
             <div *ngIf="signupForm.submitted && userNameField.invalid" class="text-danger">
               <div *ngIf="userNameField.errors?.['required']">
                 User Name is required.
@@ -41,7 +40,6 @@
               email
               #emailField="ngModel"
             />
-            <!-- Client-side validation message -->
             <div *ngIf="signupForm.submitted && emailField.invalid" class="text-danger">
               <div *ngIf="emailField.errors?.['required']">
                 Email is required.
@@ -70,7 +68,6 @@
             >
               <i class="bi" [ngClass]="isPasswordVisible ? 'bi-eye' : 'bi-eye-slash'"></i>
             </span>
-            <!-- Client-side validation message -->
           </div>
 
           <button type="submit" class="btn btn-primary w-100 mb-3" [disabled]="isSubmitting">
